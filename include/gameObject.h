@@ -4,6 +4,11 @@
 #include "physics.h"
 #include "render.h"
 
+struct Component
+{
+
+};
+
 
 struct GameObject
 {
