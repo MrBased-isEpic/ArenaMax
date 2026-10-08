@@ -1,0 +1,53 @@
+{
+	"abstract" : true,
+	"artifacts" : 
+	[
+		{
+			"path" : "D:/Projects/ArenaMax/thirdParty/raylib-6.0_win64_msvc16/lib/raylib.dll"
+		},
+		{
+			"path" : "D:/Projects/ArenaMax/thirdParty/raylib-6.0_win64_msvc16/lib/raylibdll.lib"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 39,
+				"parent" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"id" : "rayLib::@6890427a1f51a3e7e1df",
+	"imported" : true,
+	"local" : true,
+	"name" : "rayLib",
+	"nameOnDisk" : "raylib.dll",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sources" : [],
+	"type" : "SHARED_LIBRARY"
+}

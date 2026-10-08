@@ -1,0 +1,22 @@
+# ninja log v7
+15	39	8130404620673244	D:/Projects/ArenaMax/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	3ff436203fe33964
+35	466	8130404518814909	CMakeFiles/ArenaMax.dir/src/main.cpp.obj	6bbf00fae7dd14d5
+466	633	8130404523124021	ArenaMax.exe	a9b62c525f987b7c
+79	462	8130405951510237	build.ninja	1282bd2954cfac03
+79	462	8130405951477198	D:/Projects/ArenaMax/out/build/x64-Debug/cmake_install.cmake	1282bd2954cfac03
+74	175	8117885212822058	CMakeFiles/ArenaMax.dir/src/input.cpp.obj	676e6ba1f3892c3
+63	796	8126971848749505	CMakeFiles/ArenaMax.dir/src/vehicle.cpp.obj	814ab93428b19a9d
+54	806	8126971848655715	CMakeFiles/ArenaMax.dir/src/game.cpp.obj	25e4b75ef0d06089
+45	594	8126353118793794	CMakeFiles/ArenaMax.dir/src/camera.cpp.obj	393ad337d13617b5
+87	1179	8126965081952416	CMakeFiles/ArenaMax.dir/src/physics.cpp.obj	91425d374aba1574
+41	153	8122011721159496	CMakeFiles/ArenaMax.dir/src/myutils.cpp.obj	b2b940e355f3c167
+65	1272	8126112943193620	CMakeFiles/ArenaMax.dir/src/debug.cpp.obj	a24a9d810af30cb
+60	585	8126353118874019	CMakeFiles/ArenaMax.dir/src/gameObject.cpp.obj	8c846ffef41a17e3
+75	615	8126353119030318	CMakeFiles/ArenaMax.dir/src/render.cpp.obj	bdecb139be337d97
+16	39	8130406457741845	D:/Projects/ArenaMax/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	3ff436203fe33964
+11	35	8130406526660296	D:/Projects/ArenaMax/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	3ff436203fe33964
+12	37	8130406740162714	D:/Projects/ArenaMax/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	3ff436203fe33964
+11	34	8130406805296809	D:/Projects/ArenaMax/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	3ff436203fe33964
+10	33	8130406866259238	D:/Projects/ArenaMax/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	3ff436203fe33964
+35	462	8130406866594589	CMakeFiles/ArenaMax.dir/src/main.cpp.obj	6bbf00fae7dd14d5
+463	936	8130406870842304	ArenaMax.exe	a9b62c525f987b7c
