@@ -3,16 +3,17 @@
 PhysicsState* Physics_Start()
 {
 	PhysicsState* physicState = new PhysicsState;
-	physicState->dynamics.reserve(5);
+	physicState->dynamics = SwapBackArray_Create(sizeof(RigidBody), 5);
 	return physicState;
 }
 
-RigidBody* RigidBody_Get(PhysicsState* physicsState, uint16 id)
+RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 id)
 {
-	for (int i = 0; i < physicsState->dynamics.size(); i++)
+	for (int i = 0; i < physicsState->dynamics.count; i++)
 	{
-		if(physicsState->dynamics[i].id == id)
-			return &physicsState->dynamics[i];
+		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, i);
+		if(rb->component.id == id)
+			return rb;
 	}
 
 	return nullptr;
@@ -42,7 +43,7 @@ void Rigidbody_GetNormals(
 	}
 }
 
-bool RigidBody_GetCollision(
+bool Physics_GetCollision(
 	PhysicsState* physicsState,
 	RigidBody* rb,
 	Collision* col)
@@ -67,19 +68,23 @@ void Physics_UpdateCollisions(PhysicsState* physicsState)
 	physicsState->collisions.clear();
 
 	//Collision Checks
-	for (int x = 0; x < physicsState->dynamics.size() - 1; x++) // cycle thru rigidbody
+	for (int x = 0; x < physicsState->dynamics.count - 1; x++) // cycle thru rigidbody
 	{
 		//cout << endl << "Checking collision for rigidbody : " << x << endl;
-		RigidBody* rb = &physicsState->dynamics[x];
+		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, x);
 
 		if (rb->isStatic) continue;
 
 		// cycle thru other rigidbodies
-		for (int y = 0; y < physicsState->dynamics.size(); y++)
+		for (int y = 0; y < physicsState->dynamics.count; y++)
 		{
-			if (rb == &physicsState->dynamics[y]) continue;
+			if (rb == 
+				(RigidBody*)SwapBackArray_Get(&physicsState->dynamics, y))
+			{
+				continue;
+			}
 
-			RigidBody* rb2 = &physicsState->dynamics[y];
+			RigidBody* rb2 = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, y);
 
 			Vector3 axes[10];
 
@@ -214,10 +219,10 @@ void Physics_Update(PhysicsState* physicsState, real32 timeStep)
 {
 	Physics_ResolveCollisions(physicsState);
 
-	for (int x = 0; x < physicsState->dynamics.size(); x++)
+	for (int x = 0; x < physicsState->dynamics.count; x++)
 	{
 		//cout << x << endl;
-		RigidBody* rb = &physicsState->dynamics[x];
+		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, x);
 
 		RigidBody_Update(rb, timeStep);
 	}
@@ -225,50 +230,8 @@ void Physics_Update(PhysicsState* physicsState, real32 timeStep)
 	Physics_UpdateCollisions(physicsState);
 }
 
-void RigidBody_Update(
-	RigidBody* rigidbody,
-	real32 timeStep)
-{
-	if (rigidbody->isStatic) return;
 
-	Transform* t = rigidbody->transform;
-
-	// Apply Velocity to given transform
-
-	Vector3 positionChange = Vector3Scale(rigidbody->velocity, timeStep);
-
-	t->translation = Vector3Add(
-		t->translation,
-		positionChange);
-
-	Vector3 angularVelocity = Vector3Scale(
-		rigidbody->angularVelocity,
-		timeStep);
-
-	Quaternion rotChange = QuaternionFromEuler(
-		angularVelocity.x,
-		angularVelocity.y,
-		angularVelocity.z);
-
-	t->rotation = QuaternionMultiply(
-		t->rotation,
-		rotChange);
-
-	for (int i = 0; i < rigidbody->numberOfPoints; i++)
-	{
-		rigidbody->points[i] = Vector3Add(
-			rigidbody->points[i],
-			positionChange);
-
-		Vector3 localPoint = rigidbody->points[i] - t->translation;
-
-		rigidbody->points[i] = Vector3RotateByQuaternion(
-			localPoint,
-			rotChange) + t->translation;
-	}
-}
-
-uint16 Rigidbody_Create(
+uint16 Physics_AddRigidBody(
 	PhysicsState* physicsState,
 	Transform* transform,
 	RigidBody** rigidBody,
@@ -279,6 +242,7 @@ uint16 Rigidbody_Create(
 	///cout << endl << "Creating a Rigidbody.." << endl;
 
 	RigidBody rb = {};
+	rb.component.type = RIGIDBODY;
 	rb.velocity = {0,0,0};
 	rb.angularVelocity = { 0,0,0 };
 	rb.transform = transform;
@@ -303,29 +267,79 @@ uint16 Rigidbody_Create(
 	Rigidbody_GetNormals(&rb);
 
 	rb.isStatic = isStatic;
-	rb.id = physicsState->rigidbodyIdCount++;
+	rb.component.id = physicsState->rigidbodyIdCount++;
 
-	physicsState->dynamics.push_back(rb);
+	SwapBackArray_Add(&physicsState->dynamics, (void*) & rb);
 
-	*rigidBody = &physicsState->dynamics.back();
+	//physicsState->dynamics.push_back(rb);
 
-	return rb.id;
+	*rigidBody = (RigidBody*)SwapBackArray_Last(&physicsState->dynamics);
+
+	return rb.component.id;
 }
 
-void Rigidbody_Delete(
+//Component* Physics_AddRigidBody(
+//	GameState* gameState,
+//	GameObject* gameObject,
+//	ComponentForm* form)
+//{
+//	///cout << endl << "Creating a Rigidbody.." << endl;
+//
+//	RigidBody rb = {};
+//	RigidBodyForm* rbForm = (RigidBodyForm*)form;
+//	PhysicsState* physicsState = gameState->physicsState;
+//
+//
+//	rb.component.type = RIGIDBODY;
+//	rb.velocity = { 0,0,0 };
+//	rb.angularVelocity = { 0,0,0 };
+//	rb.transform = &gameObject->transform;
+//	rb.numberOfPoints = rbForm->numberOfPoints;
+//
+//	Matrix mat = MatrixCompose(
+//		rb.transform->translation,
+//		rb.transform->rotation,
+//		rb.transform->scale);
+//
+//	if (rbForm->numberOfPoints == 1)
+//	{
+//		rbForm->numberOfPoints = 2;
+//	}
+//
+//	for (int i = 0; i < rbForm->numberOfPoints; i++)
+//	{
+//		rb.points[i] = Vector3Transform(rbForm->points[i], mat);
+//		//cout <<rb.points[i].x << ":" << rb.points[i].y << endl;
+//	}
+//
+//	Rigidbody_GetNormals(&rb);
+//
+//	rb.isStatic = rbForm->isStatic;
+//	rb.component.id = physicsState->rigidbodyIdCount++;
+//
+//	SwapBackArray_Add(&physicsState->dynamics, (void*)&rb);
+//
+//	RigidBody* rbPtr = (RigidBody*)SwapBackArray_Last(&physicsState->dynamics);
+//
+//	return (Component*)rbPtr;
+//}
+
+void Physics_DeleteRigidBody(
 	PhysicsState* physicsState,
 	RigidBody** rigidBody,
 	uint16 rigidbodyid)
 {
 	*rigidBody = nullptr;
 
-	for (int i = 0; i < physicsState->dynamics.size(); i++)
+	for (int i = 0; i < physicsState->dynamics.count; i++)
 	{
-		if (physicsState->dynamics[i].id == rigidbodyid)
+		if (((RigidBody*)SwapBackArray_Get(&physicsState->dynamics, i))
+			->component.id == rigidbodyid)
 		{
-			physicsState->dynamics[i] = physicsState->dynamics.back();
-			physicsState->dynamics.pop_back();
-			return;
+			SwapBackArray_Remove(&physicsState->dynamics, i);
+			break;
 		}
 	}
+
+	physicsState->isDynamicsRearranged = true;
 }

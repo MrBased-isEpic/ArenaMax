@@ -19,15 +19,15 @@ void Vehicle_Create(Vehicle* vehicle, PhysicsState* physicsState)
     vehicle->maxRotationSpeed = 270;
     vehicle->rotationAcceleration = 891;
 
+    RigidBodyForm rbForm = {};
 
-    Vector3 colliderPoints[4];
-    GeneratePolyPoints(colliderPoints, 4, 21.2);
-
-    gameObject->rigidbodyid = Rigidbody_Create(
+    GeneratePolyPoints(rbForm.points, 4, 21.2);
+   
+    gameObject->rigidbodyid = Physics_AddRigidBody(
         physicsState,
         transform,
         &gameObject->rigidbody,
-        colliderPoints,
+        rbForm.points,
         4,
         false);
 
@@ -42,6 +42,7 @@ void Vehicle_Update(
     RigidBody* rb = vehicle->gameObject.rigidbody;
 
     Vector3* velocity = &(rb->velocity);
+
     real32* angularVelocity = &(rb->angularVelocity.z);
 
     *angularVelocity *= RAD2DEG;

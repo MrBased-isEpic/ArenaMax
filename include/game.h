@@ -9,6 +9,7 @@ struct GameState;
 #include "gameObject.h"
 #include "render.h"
 #include "camera.h"
+#include <vector>
 
 struct GameState
 {
@@ -17,6 +18,10 @@ struct GameState
 
     PhysicsState* physicsState;
     RenderState* renderState;
+
+    //uint16 gameObjectIdCount = 0;
+    //vector<GameObject> gameObjects = vector<GameObject>(0);
+    //bool isGameObjectRearranged = false;
 
     Vehicle vehicle;
 

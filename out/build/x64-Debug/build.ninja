@@ -49,6 +49,17 @@ cmake_ninja_workdir = D$:\Projects\ArenaMax\out\build\x64-Debug\
 
 build cmake_object_order_depends_target_ArenaMax: phony || .
 
+build CMakeFiles\ArenaMax.dir\src\arrays.cpp.obj: CXX_COMPILER__ArenaMax_unscanned_Debug D$:\Projects\ArenaMax\src\arrays.cpp || cmake_object_order_depends_target_ArenaMax
+  CONFIG = Debug
+  DEFINES = -DDEVELOPLEMT_BUILD=1 -DPRODUCTION_BUILD=0 -DRESOURCES_PATH=\"D:/Projects/ArenaMax/resources/\" -D_CRT_SECURE_NO_WARNINGS
+  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MTd /UUNICODE /U_UNICODE
+  INCLUDES = -ID:\Projects\ArenaMax\include -ID:\Projects\ArenaMax\thirdParty\raylib-6.0_win64_msvc16\include
+  OBJECT_DIR = CMakeFiles\ArenaMax.dir
+  OBJECT_FILE_DIR = CMakeFiles\ArenaMax.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\ArenaMax.dir\
+  TARGET_PDB = ArenaMax.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\ArenaMax.dir
+
 build CMakeFiles\ArenaMax.dir\src\camera.cpp.obj: CXX_COMPILER__ArenaMax_unscanned_Debug D$:\Projects\ArenaMax\src\camera.cpp || cmake_object_order_depends_target_ArenaMax
   CONFIG = Debug
   DEFINES = -DDEVELOPLEMT_BUILD=1 -DPRODUCTION_BUILD=0 -DRESOURCES_PATH=\"D:/Projects/ArenaMax/resources/\" -D_CRT_SECURE_NO_WARNINGS
@@ -148,6 +159,17 @@ build CMakeFiles\ArenaMax.dir\src\render.cpp.obj: CXX_COMPILER__ArenaMax_unscann
   TARGET_PDB = ArenaMax.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\ArenaMax.dir
 
+build CMakeFiles\ArenaMax.dir\src\rigidbody.cpp.obj: CXX_COMPILER__ArenaMax_unscanned_Debug D$:\Projects\ArenaMax\src\rigidbody.cpp || cmake_object_order_depends_target_ArenaMax
+  CONFIG = Debug
+  DEFINES = -DDEVELOPLEMT_BUILD=1 -DPRODUCTION_BUILD=0 -DRESOURCES_PATH=\"D:/Projects/ArenaMax/resources/\" -D_CRT_SECURE_NO_WARNINGS
+  FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MTd /UUNICODE /U_UNICODE
+  INCLUDES = -ID:\Projects\ArenaMax\include -ID:\Projects\ArenaMax\thirdParty\raylib-6.0_win64_msvc16\include
+  OBJECT_DIR = CMakeFiles\ArenaMax.dir
+  OBJECT_FILE_DIR = CMakeFiles\ArenaMax.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\ArenaMax.dir\
+  TARGET_PDB = ArenaMax.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\ArenaMax.dir
+
 build CMakeFiles\ArenaMax.dir\src\vehicle.cpp.obj: CXX_COMPILER__ArenaMax_unscanned_Debug D$:\Projects\ArenaMax\src\vehicle.cpp || cmake_object_order_depends_target_ArenaMax
   CONFIG = Debug
   DEFINES = -DDEVELOPLEMT_BUILD=1 -DPRODUCTION_BUILD=0 -DRESOURCES_PATH=\"D:/Projects/ArenaMax/resources/\" -D_CRT_SECURE_NO_WARNINGS
@@ -167,7 +189,7 @@ build CMakeFiles\ArenaMax.dir\src\vehicle.cpp.obj: CXX_COMPILER__ArenaMax_unscan
 #############################################
 # Link the executable ArenaMax.exe
 
-build ArenaMax.exe: CXX_EXECUTABLE_LINKER__ArenaMax_Debug CMakeFiles\ArenaMax.dir\src\camera.cpp.obj CMakeFiles\ArenaMax.dir\src\debug.cpp.obj CMakeFiles\ArenaMax.dir\src\game.cpp.obj CMakeFiles\ArenaMax.dir\src\gameObject.cpp.obj CMakeFiles\ArenaMax.dir\src\input.cpp.obj CMakeFiles\ArenaMax.dir\src\main.cpp.obj CMakeFiles\ArenaMax.dir\src\myutils.cpp.obj CMakeFiles\ArenaMax.dir\src\physics.cpp.obj CMakeFiles\ArenaMax.dir\src\render.cpp.obj CMakeFiles\ArenaMax.dir\src\vehicle.cpp.obj | D$:\Projects\ArenaMax\thirdParty\raylib-6.0_win64_msvc16\lib\raylibdll.lib
+build ArenaMax.exe: CXX_EXECUTABLE_LINKER__ArenaMax_Debug CMakeFiles\ArenaMax.dir\src\arrays.cpp.obj CMakeFiles\ArenaMax.dir\src\camera.cpp.obj CMakeFiles\ArenaMax.dir\src\debug.cpp.obj CMakeFiles\ArenaMax.dir\src\game.cpp.obj CMakeFiles\ArenaMax.dir\src\gameObject.cpp.obj CMakeFiles\ArenaMax.dir\src\input.cpp.obj CMakeFiles\ArenaMax.dir\src\main.cpp.obj CMakeFiles\ArenaMax.dir\src\myutils.cpp.obj CMakeFiles\ArenaMax.dir\src\physics.cpp.obj CMakeFiles\ArenaMax.dir\src\render.cpp.obj CMakeFiles\ArenaMax.dir\src\rigidbody.cpp.obj CMakeFiles\ArenaMax.dir\src\vehicle.cpp.obj | D$:\Projects\ArenaMax\thirdParty\raylib-6.0_win64_msvc16\lib\raylibdll.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MTd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console

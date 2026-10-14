@@ -7,9 +7,9 @@ string Vector3String(Vector3 v)
 
 void DrawColliders(PhysicsState* physicsState)
 {
-    for (int x = 0; x < physicsState->dynamics.size(); x++)
+    for (int x = 0; x < physicsState->dynamics.count; x++)
     {
-        RigidBody* rb = &physicsState->dynamics[x];
+        RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, x);
 
         if (rb->numberOfPoints == 1)
         {

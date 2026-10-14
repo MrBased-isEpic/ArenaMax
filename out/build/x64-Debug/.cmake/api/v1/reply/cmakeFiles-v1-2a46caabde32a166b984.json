@@ -5,6 +5,7 @@
 			"expression" : "D:/Projects/ArenaMax/src/*.cpp",
 			"paths" : 
 			[
+				"D:/Projects/ArenaMax/src/arrays.cpp",
 				"D:/Projects/ArenaMax/src/camera.cpp",
 				"D:/Projects/ArenaMax/src/debug.cpp",
 				"D:/Projects/ArenaMax/src/game.cpp",
@@ -14,6 +15,7 @@
 				"D:/Projects/ArenaMax/src/myutils.cpp",
 				"D:/Projects/ArenaMax/src/physics.cpp",
 				"D:/Projects/ArenaMax/src/render.cpp",
+				"D:/Projects/ArenaMax/src/rigidbody.cpp",
 				"D:/Projects/ArenaMax/src/vehicle.cpp"
 			],
 			"recurse" : true

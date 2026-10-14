@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include <string>
 #include <iostream>
+#include "arrays.h"
 #include "physics.h"
 
 using namespace std;

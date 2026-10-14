@@ -36,7 +36,7 @@ GameState* Logic_Start(
     Vector3 points[5];
     GeneratePolyPoints(points, 5, 300);
     
-    box->rigidbodyid = Rigidbody_Create(
+    box->rigidbodyid = Physics_AddRigidBody(
         physicsState,
         &box->transform,
         &box->rigidbody,
@@ -53,17 +53,24 @@ void Logic_RefreshPhysicsReferences(GameState* gameState)
 {
     if (!gameState->physicsState->isDynamicsRearranged) return;
 
-    gameState->vehicle.gameObject.rigidbody = RigidBody_Get(
+    gameState->vehicle.gameObject.rigidbody = Physics_GetRigidBody(
         gameState->physicsState,
         gameState->vehicle.gameObject.rigidbodyid);
 
-    gameState->box.rigidbody = RigidBody_Get(
+    gameState->box.rigidbody = Physics_GetRigidBody(
         gameState->physicsState,
         gameState->box.rigidbodyid);
 
     gameState->physicsState->isDynamicsRearranged = false;
 
     cout << "refreshed references" << endl;
+}
+
+void Logic_RefreshGameObjectReferences(GameState* gameState)
+{
+    //if (!gameState->isGameObjectRearranged) return;
+
+    
 }
 
 void GetInput(GameState* gameState)

@@ -1,12 +1,15 @@
 #pragma once
 
 struct PhysicsState;
+
 #include "types.h"
 #include "raylib.h"
 #include "raymath.h"
 #include <vector>
+#include "arrays.h"
 #include <iostream>
 #include "debug.h"
+#include "rigidbody.h"
 #include <cfloat>
 
 using namespace std;
@@ -15,30 +18,6 @@ using namespace std;
 #define SQUARE 1
 #define RECTANGLE 2
 
-struct RigidBody
-{
-	uint16 id;
-
-	bool isStatic = true;
-	Transform* transform = nullptr;
-
-	// world space position of the collider points.
-	Vector3 points[5];
-
-	// The outwards direction each edge points towards.
-	// Calculated per frame for dynamic objects, once if static.
-	Vector3 normals[5];
-
-	// Number of points define the shape of the collider.
-	uint8 numberOfPoints = 0;
-
-	// units in pixels per second
-	Vector3 velocity = {};
-	// units in radians per second
-	Vector3 angularVelocity = {};
-
-	real32 bounce = .2f;
-};
 
 // A report of a intersection happening between rigidbodies.
 // Contains everything that is needed to resolve the collision.
@@ -55,7 +34,8 @@ struct PhysicsState
 	uint16 rigidbodyIdCount = 0;
 
 	// List of rigidbodies that can move across the world
-	vector<RigidBody> dynamics = vector<RigidBody>(0);
+	SwapBackArray dynamics;
+	//vector<RigidBody> dynamics = vector<RigidBody>(0);
 	bool isDynamicsRearranged = false;
 
 	// List of collisions that occurred this frame. 
@@ -64,7 +44,7 @@ struct PhysicsState
 	vector<Collision> collisions = vector<Collision>(0);
 };
 
-bool RigidBody_GetCollision(
+bool Physics_GetCollision(
 	PhysicsState* physicsState,
 	RigidBody* rb,
 	Collision* col);
@@ -75,15 +55,12 @@ void Physics_Update(
 	PhysicsState* physicsState,
 	real32 timeStep);
 
-void RigidBody_Update(
-	RigidBody* rigidbody,
-	real32 timeStep);
 
-RigidBody* RigidBody_Get(
+RigidBody* Physics_GetRigidBody(
 	PhysicsState* physicsState,
 	uint16 id);
 
-uint16 Rigidbody_Create(
+uint16 Physics_AddRigidBody(
 	PhysicsState* physicsState,
 	Transform* transform,
 	RigidBody** rigidBody,
@@ -91,7 +68,12 @@ uint16 Rigidbody_Create(
 	uint8 numberOfPoints,
 	bool isStatic);
 
-void Rigidbody_Delete(
+//Component* Physics_AddRigidBody(
+//	GameState* gameState,
+//	GameObject* gameObject,
+//	ComponentForm* form);
+
+void Physics_DeleteRigidBody(
 	PhysicsState* physicsState,
 	RigidBody** rigidBody,
 	uint16 rigidbodyid);

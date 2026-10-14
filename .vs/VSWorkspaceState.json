@@ -7,9 +7,11 @@
   },
   "ExpandedNodes": [
     "",
+    "\\include",
     "\\out",
-    "\\out\\build",
+    "\\resources",
     "\\src"
   ],
+  "SelectedNode": "\\include\\rigidbody.h",
   "PreviewInSolutionExplorer": false
 }

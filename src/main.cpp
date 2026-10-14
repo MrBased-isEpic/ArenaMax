@@ -46,9 +46,10 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-	SetTargetFPS(60);
+    real32 targetFPS = 60;
+	SetTargetFPS(targetFPS);
 
-    real32 targetFrameTime = 0.016667;
+    real32 targetFrameTime = 1 / targetFPS;
 
     PhysicsState* physicsState = Physics_Start();
     RenderState* renderState = Renderer_Start();

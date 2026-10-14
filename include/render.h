@@ -1,10 +1,12 @@
 #pragma once
 #include "raylib.h"
 #include "physics.h"
+#include "types.h"
+#include "component.h"
 
-struct ShapeRenderer
+struct PolyRenderer
 {
-	uint16 id;
+	Component component;
 
 	Transform* transform = nullptr;
 	uint8 noOfSides = 4;
@@ -18,7 +20,7 @@ struct RenderState
 	uint16 rendererIdCount = 0;
 
 	// List of shapes to be rendered
-	vector<ShapeRenderer> shapes = vector<ShapeRenderer>(0);
+	vector<PolyRenderer> shapes = vector<PolyRenderer>(0);
 	bool isShapesRearranged = false;
 };
 
@@ -27,7 +29,7 @@ RenderState* Renderer_Start();
 uint16 ShapeRenderer_Create(
 	RenderState* renderState,
 	Transform* transform,
-	ShapeRenderer** shapeRenderer,
+	PolyRenderer** shapeRenderer,
 	uint8 numberOfSides,
 	real32 size,
 	Color color);
