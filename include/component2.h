@@ -32,15 +32,21 @@ struct GameObjectForm
 	ComponentForm firstComponent;
 };
 
-struct RigidbodyForm 
-{
-	Vector3 points[5];
-	uint8 numberOfPoints;
-	bool isStatic;
-};
-
-
 Component* RigidBody_Create(
 	GameState* gameState,
 	GameObject* gameObject,
 	ComponentForm* form);
+
+struct RigidbodyForm 
+{
+	ComponentForm form = 
+	{
+		RIGIDBODY,
+		sizeof(RigidbodyForm),
+		&RigidBody_Create
+	};
+
+	Vector3 points[5];
+	uint8 numberOfPoints = 0;
+	bool isStatic = true;
+};

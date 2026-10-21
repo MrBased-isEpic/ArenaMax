@@ -21,7 +21,3 @@ struct GameObject
 	PolyRenderer* shape;
 	uint16 renderId;
 };
-
-GameObject GameObjectCreate();
-
-void AddComponent();

@@ -1,4 +1,5 @@
 #include "gameState.h"
+#include "component2.h"
 #include "logic.h"
 
 GameState* Logic_Start(
@@ -34,16 +35,22 @@ GameState* Logic_Start(
         300,
         GRAY);
 
+    RigidbodyForm rbForm = {};
+    rbForm.numberOfPoints = 5;
+    rbForm.isStatic = false;
+
     Vector3 points[5];
-    GeneratePolyPoints(points, 5, 300);
-    
-    box->rigidbodyid = Physics_AddRigidBody(
-        physicsState,
-        &box->transform,
-        &box->rigidbody,
-        points,
-        5,
-        false);
+    GeneratePolyPoints(rbForm.points, rbForm.numberOfPoints, 300);
+
+    GameObject_AddComponent(box, gameState, (ComponentForm*)&rbForm);
+
+    //box->rigidbodyid = Physics_AddRigidBody(
+    //    physicsState,
+    //    &box->transform,
+    //    &box->rigidbody,
+    //    rbForm.points,
+    //    5,
+    //    false);
 
     gameState->camera = Camera_Create(gameState);
 

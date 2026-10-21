@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gameState.h"
+#include "gameObject2.h"
 
 GameState* Logic_Start(
     uint16 screenWidth,
