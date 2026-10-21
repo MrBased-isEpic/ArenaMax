@@ -7,6 +7,7 @@
 			[
 				"D:/Projects/ArenaMax/src/arrays.cpp",
 				"D:/Projects/ArenaMax/src/camera.cpp",
+				"D:/Projects/ArenaMax/src/component.cpp",
 				"D:/Projects/ArenaMax/src/debug.cpp",
 				"D:/Projects/ArenaMax/src/game.cpp",
 				"D:/Projects/ArenaMax/src/gameObject.cpp",

@@ -179,7 +179,8 @@
 				8,
 				9,
 				10,
-				11
+				11,
+				12
 			]
 		}
 	],
@@ -243,7 +244,8 @@
 				8,
 				9,
 				10,
-				11
+				11,
+				12
 			]
 		}
 	],
@@ -259,6 +261,12 @@
 			"backtrace" : 11,
 			"compileGroupIndex" : 0,
 			"path" : "src/camera.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 11,
+			"compileGroupIndex" : 0,
+			"path" : "src/component.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -1,5 +1,6 @@
 #pragma once
 struct GameState;
+struct Component;
 
 #include "types.h"
 #include "input.h"
@@ -32,12 +33,3 @@ struct GameState
 };
 
 
-GameState* Logic_Start(
-    uint16 screenWidth,
-    uint16 screenHeight,
-    PhysicsState* physicsState,
-    RenderState* renderState);
-
-void GetInput(GameState* gameState);
-
-void Logic_Update(GameState* gameState, real32 timeStep);

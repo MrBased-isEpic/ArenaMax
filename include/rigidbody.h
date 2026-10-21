@@ -4,19 +4,6 @@
 #include "raylib.h"
 #include "raymath.h"
 
-struct RigidBodyForm
-{
-	//ComponentForm form = {
-	//	RIGIDBODY,
-	//	sizeof(RigidBodyForm),
-	//	&Physics_AddRigidBody
-	//};
-
-	Vector3 points[5];
-	uint8 numberOfPoints;
-	bool isStatic;
-};
-
 struct RigidBody
 {
 	Component component =
@@ -49,7 +36,4 @@ void RigidBody_Update(
 	RigidBody* rigidbody,
 	real32 timeStep);
 
-//Component* Physics_AddRigidBody(
-//	GameState* gameState,
-//	GameObject* gameObject,
-//	ComponentForm* form);
+void Rigidbody_GetNormals(RigidBody* rigidBody);

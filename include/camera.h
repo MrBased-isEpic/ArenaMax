@@ -2,7 +2,7 @@
 
 #include "vehicle.h"
 #include "raylib.h"
-#include "game.h"
+#include "gameState.h"
 #include "raylib.h"
 
 Camera2D Camera_Create(GameState* gameState);

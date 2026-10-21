@@ -1,4 +1,5 @@
-#include "game.h"
+#include "gameState.h"
+#include "logic.h"
 
 GameState* Logic_Start(
     uint16 screenWidth,

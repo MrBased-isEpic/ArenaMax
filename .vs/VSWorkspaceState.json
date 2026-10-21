@@ -12,6 +12,6 @@
     "\\resources",
     "\\src"
   ],
-  "SelectedNode": "\\include\\rigidbody.h",
+  "SelectedNode": "\\src\\physics.cpp",
   "PreviewInSolutionExplorer": false
 }

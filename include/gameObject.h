@@ -1,10 +1,10 @@
 #pragma once
 
 struct RigidBody;
-struct Component;
+struct PolyRenderer;
 
+#include "component.h"
 #include "raylib.h"
-#include "render.h"
 
 
 struct GameObject
@@ -21,13 +21,6 @@ struct GameObject
 	PolyRenderer* shape;
 	uint16 renderId;
 };
-
-struct GameObjectForm
-{
-	uint16 size;
-	ComponentForm firstComponent;
-};
-
 
 GameObject GameObjectCreate();
 

@@ -1,8 +1,14 @@
 #pragma once
-#include "raylib.h"
-#include "physics.h"
-#include "types.h"
+
+struct Component;
+
 #include "component.h"
+#include "raylib.h"
+#include "raymath.h"
+#include "types.h"
+#include <vector>
+
+using namespace std;
 
 struct PolyRenderer
 {
