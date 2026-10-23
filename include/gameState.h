@@ -3,6 +3,7 @@ struct GameState;
 struct Component;
 
 #include "types.h"
+#include "arrays.h"
 #include "input.h"
 #include "vehicle.h"
 #include "raylib.h"
@@ -20,13 +21,11 @@ struct GameState
     PhysicsState* physicsState;
     RenderState* renderState;
 
-    //uint16 gameObjectIdCount = 0;
-    //vector<GameObject> gameObjects = vector<GameObject>(0);
-    //bool isGameObjectRearranged = false;
+    uint16 gameObjectIdCount = 0;
+    SwapBackArray gameObjects;
+    bool isGameObjectRearranged = false;
 
     Vehicle vehicle;
-
-    GameObject box;
     Input input;
 
     Camera2D camera;

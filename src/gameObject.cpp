@@ -1,13 +1,15 @@
 #include "gameObject.h"
 #include "gameObject2.h"
 
-//GameObject* GameObject_Create(GameState* gameState)
-//{
-//	GameObject gameObject = {};
-//	gameState->gameObjects.push_back(gameObject);
-//	
-//	return &gameState->gameObjects.back();
-//}
+GameObject* GameObject_Create(GameState* gameState)
+{
+	GameObject gameObject = {};
+	gameObject.id = gameState->gameObjectIdCount++;
+
+	SwapBackArray_Add(&gameState->gameObjects, &gameObject);
+	
+	return (GameObject*)SwapBackArray_Last(&gameState->gameObjects);
+}
 
 void GameObject_Delete(
 	GameState* gameState,

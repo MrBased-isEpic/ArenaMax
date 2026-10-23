@@ -39,6 +39,7 @@ Component* RigidBody_Create(
 
 	rb.isStatic = rbForm->isStatic;
 	rb.component.id = physicsState->rigidbodyIdCount++;
+	rb.component.gameObjectId = gameObject->id;
 
 	SwapBackArray_Add(&physicsState->dynamics, (void*)&rb);
 

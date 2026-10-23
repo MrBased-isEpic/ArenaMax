@@ -16,6 +16,8 @@ SwapBackArray SwapBackArray_Create(
 	uint16 elementSize,
 	uint16 capacity);
 
+void SwapBackArray_Destroy(const SwapBackArray* array);
+
 void SwapBackArray_Add(
 	SwapBackArray* array,
 	const void* element);

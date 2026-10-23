@@ -4,7 +4,7 @@
 #include "gameState.h"
 #include "component2.h"
 
-//GameObject GameObjectCreate(GameState* gameState);
+GameObject* GameObject_Create(GameState* gameState);
 
 void GameObject_Delete(
 	GameState* gameState,

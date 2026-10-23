@@ -13,6 +13,12 @@ SwapBackArray SwapBackArray_Create(
 	return array;
 }
 
+void SwapBackArray_Destroy(SwapBackArray* array)
+{
+	free(array->start);
+	return;
+}
+
 void SwapBackArray_Add(
 	SwapBackArray* array,
 	const void* element)

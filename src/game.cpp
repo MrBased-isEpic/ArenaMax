@@ -18,10 +18,11 @@ GameState* Logic_Start(
 
     gameState->input = {};
 
+    gameState->gameObjects = SwapBackArray_Create(sizeof(GameObject), 5);
+
     Vehicle_Create(&gameState->vehicle, gameState->physicsState);
 
-    gameState->box = {};
-    GameObject* box = &gameState->box;
+    GameObject* box = GameObject_Create(gameState);
 
     box->transform.translation = {500,100,0};
     box->transform.rotation = QuaternionFromEuler(0, 0, -90 * DEG2RAD);
@@ -39,18 +40,9 @@ GameState* Logic_Start(
     rbForm.numberOfPoints = 5;
     rbForm.isStatic = false;
 
-    Vector3 points[5];
     GeneratePolyPoints(rbForm.points, rbForm.numberOfPoints, 300);
 
     GameObject_AddComponent(box, gameState, (ComponentForm*)&rbForm);
-
-    //box->rigidbodyid = Physics_AddRigidBody(
-    //    physicsState,
-    //    &box->transform,
-    //    &box->rigidbody,
-    //    rbForm.points,
-    //    5,
-    //    false);
 
     gameState->camera = Camera_Create(gameState);
 
@@ -64,10 +56,6 @@ void Logic_RefreshPhysicsReferences(GameState* gameState)
     gameState->vehicle.gameObject.rigidbody = Physics_GetRigidBody(
         gameState->physicsState,
         gameState->vehicle.gameObject.rigidbodyid);
-
-    gameState->box.rigidbody = Physics_GetRigidBody(
-        gameState->physicsState,
-        gameState->box.rigidbodyid);
 
     gameState->physicsState->isDynamicsRearranged = false;
 
