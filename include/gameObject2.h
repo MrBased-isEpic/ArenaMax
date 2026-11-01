@@ -14,3 +14,7 @@ void GameObject_AddComponent(
 	GameObject* gameObject,
 	GameState* gameState,
 	ComponentForm* form);
+
+Component* GameObject_GetComponent(
+	GameObject* gameObject,
+	CompType type);

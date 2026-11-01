@@ -21,9 +21,11 @@ struct GameState
     PhysicsState* physicsState;
     RenderState* renderState;
 
-    uint16 gameObjectIdCount = 0;
+    uint16 gameObjectIdCount = 1;
     SwapBackArray gameObjects;
     bool isGameObjectRearranged = false;
+
+    Vehicle2 vehicle2;
 
     Vehicle vehicle;
     Input input;

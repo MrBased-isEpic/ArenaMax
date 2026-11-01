@@ -1,5 +1,6 @@
 #include "gameState.h"
-#include "component2.h"
+#include "rigidbodyform.h"
+#include "vehicleform.h"
 #include "logic.h"
 
 GameState* Logic_Start(
@@ -20,7 +21,16 @@ GameState* Logic_Start(
 
     gameState->gameObjects = SwapBackArray_Create(sizeof(GameObject), 5);
 
-    Vehicle_Create(&gameState->vehicle, gameState->physicsState);
+    GameObject* vehicle = GameObject_Create(gameState);
+
+    VehicleForm VForm = {};
+
+    GameObject_AddComponent(
+        vehicle,
+        gameState,
+        (ComponentForm*)&VForm);
+
+    //Vehicle_Create(&gameState->vehicle, gameState->physicsState);
 
     GameObject* box = GameObject_Create(gameState);
 
@@ -42,7 +52,10 @@ GameState* Logic_Start(
 
     GeneratePolyPoints(rbForm.points, rbForm.numberOfPoints, 300);
 
-    GameObject_AddComponent(box, gameState, (ComponentForm*)&rbForm);
+    GameObject_AddComponent(
+        box,
+        gameState, 
+        (ComponentForm*)&rbForm);
 
     gameState->camera = Camera_Create(gameState);
 
@@ -78,8 +91,8 @@ void Logic_Update(GameState* gameState, real32 timeStep)
 {
     Logic_RefreshPhysicsReferences(gameState);
 
-    Vehicle_Update(
-        &gameState->vehicle,
+    Vehicle2_Update(
+        &gameState->vehicle2,
         gameState->input,
         timeStep);
 

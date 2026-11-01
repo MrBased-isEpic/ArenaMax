@@ -8,7 +8,7 @@ struct GameState;
 enum CompType
 {
 	NONE,
-	LOGIC,
+	VEHICLE,
 	RIGIDBODY,
 	POLYRENDERER
 };
@@ -16,6 +16,9 @@ enum CompType
 struct Component
 {
 	CompType type;
+	void (*Init_References)(Component* component, GameObject* gameObject);
+
 	uint16 id;
 	uint16 gameObjectId;
+	GameObject* gameObject;
 };

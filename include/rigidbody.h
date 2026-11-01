@@ -4,11 +4,16 @@
 #include "raylib.h"
 #include "raymath.h"
 
+void RigidBody_InitReferences(
+	Component* component,
+	GameObject* gameObject);
+
 struct RigidBody
 {
 	Component component =
 	{
 		RIGIDBODY,
+		&RigidBody_InitReferences
 	};
 
 	bool isStatic = true;

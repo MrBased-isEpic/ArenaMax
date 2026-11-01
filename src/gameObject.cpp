@@ -39,6 +39,24 @@ void GameObject_AddComponent(
 {
 	if (gameObject->componentsCount == 5) return;
 
-	gameObject->components[gameObject->componentsCount] =
-		form->Create(gameState, gameObject, form);
+	Component* component =
+		form->Create(form, gameState, gameObject);
+
+	component->Init_References(component, gameObject);
+
+	gameObject->components[gameObject->componentsCount++] = component;
+}
+
+Component* GameObject_GetComponent(
+	GameObject* gameObject,
+	CompType type)
+{
+	for (int i = 0; i < gameObject->componentsCount; i++)
+	{
+		if (gameObject->components[i]->type == type)
+			return gameObject->components[i];
+	}
+
+	cout << "could not find requested component" << endl;
+	return nullptr;
 }

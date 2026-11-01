@@ -1,10 +1,7 @@
 #include "rigidbody.h"
-#include "component2.h"
+#include "rigidbodyform.h"
 
-Component* RigidBody_Create(
-	GameState* gameState,
-	GameObject* gameObject,
-	ComponentForm* form)
+Component* RigidBody_Create(ComponentForm* form, GameState* gameState, GameObject* gameObject)
 {
 	///cout << endl << "Creating a Rigidbody.." << endl;
 
@@ -12,17 +9,21 @@ Component* RigidBody_Create(
 	RigidbodyForm* rbForm = (RigidbodyForm*)form;
 	PhysicsState* physicsState = gameState->physicsState;
 
-
 	rb.component.type = RIGIDBODY;
+	rb.component.id = physicsState->rigidbodyIdCount++;
+	rb.component.gameObjectId = gameObject->id;
+	rb.component.gameObject = gameObject;
+
 	rb.velocity = { 0,0,0 };
 	rb.angularVelocity = { 0,0,0 };
-	rb.transform = &gameObject->transform;
 	rb.numberOfPoints = rbForm->numberOfPoints;
 
+	Transform* t = &gameObject->transform;
+
 	Matrix mat = MatrixCompose(
-		rb.transform->translation,
-		rb.transform->rotation,
-		rb.transform->scale);
+		t->translation,
+		t->rotation,
+		t->scale);
 
 	if (rbForm->numberOfPoints == 1)
 	{
@@ -38,8 +39,6 @@ Component* RigidBody_Create(
 	Rigidbody_GetNormals(&rb);
 
 	rb.isStatic = rbForm->isStatic;
-	rb.component.id = physicsState->rigidbodyIdCount++;
-	rb.component.gameObjectId = gameObject->id;
 
 	SwapBackArray_Add(&physicsState->dynamics, (void*)&rb);
 
@@ -48,13 +47,19 @@ Component* RigidBody_Create(
 	return (Component*)rbPtr;
 }
 
+void RigidBody_InitReferences(Component* component, GameObject* gameObject)
+{
+	return;
+}
+
+
 void RigidBody_Update(
 	RigidBody* rigidbody,
 	real32 timeStep)
 {
 	if (rigidbody->isStatic) return;
 
-	Transform* t = rigidbody->transform;
+	Transform* t = &rigidbody->component.gameObject->transform;
 
 	// Apply Velocity to given transform
 
