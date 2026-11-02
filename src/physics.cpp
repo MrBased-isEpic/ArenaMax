@@ -1,4 +1,5 @@
 #include "physics.h"
+#include "gameObject.h"
 
 PhysicsState* Physics_Start()
 {
@@ -204,8 +205,10 @@ void Physics_ResolveCollisions(PhysicsState* physicsState)
 
 		rigidbody->velocity = newVelocity;
 
-		rigidbody->transform->translation =
-				Vector3Subtract(rigidbody->transform->translation, collision.mtv);
+		Transform* transform = &rigidbody->component.gameObject->transform;
+
+		transform->translation =
+				Vector3Subtract(transform->translation, collision.mtv);
 
 		for (int j = 0; j < rigidbody->numberOfPoints; j++)
 		{
