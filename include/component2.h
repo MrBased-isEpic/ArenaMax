@@ -7,7 +7,7 @@
 
 struct ComponentForm
 {
-	CompType type;
+	uint32 type;
 	uint16 size;
 
 	Component* (*Create)(ComponentForm* form, GameState* gameState, GameObject* gameObject);

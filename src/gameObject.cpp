@@ -49,7 +49,7 @@ void GameObject_AddComponent(
 
 Component* GameObject_GetComponent(
 	GameObject* gameObject,
-	CompType type)
+	uint32 type)
 {
 	for (int i = 0; i < gameObject->componentsCount; i++)
 	{

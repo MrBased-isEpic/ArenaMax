@@ -17,6 +17,8 @@ GameState* Logic_Start(
     gameState->physicsState = physicsState;
     gameState->renderState = renderState;
 
+    cout << "VEHICLE2 : " << VEHICLE << endl;
+
     gameState->input = {};
 
     gameState->gameObjects = SwapBackArray_Create(sizeof(GameObject), 5);
