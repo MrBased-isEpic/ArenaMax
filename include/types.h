@@ -4,7 +4,7 @@
 
 typedef uint8_t uint8; // 0 - 255
 typedef uint16_t uint16; // 0 - 65,535
-typedef uint32_t uint32; // 0 - 4,294,967,295
+typedef uint32_t CompType; // 0 - 4,294,967,295
 typedef uint64_t uint64; // 0 - 18,446,744,073,709,551,615
 
 typedef int8_t int8; // -128 - 127

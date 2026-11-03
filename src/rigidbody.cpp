@@ -10,7 +10,6 @@ Component* RigidBody_Create(ComponentForm* form, GameState* gameState, GameObjec
 	PhysicsState* physicsState = gameState->physicsState;
 
 	rb.component.type = RIGIDBODY;
-	rb.component.id = physicsState->rigidbodyIdCount++;
 	rb.component.gameObjectId = gameObject->id;
 	rb.component.gameObject = gameObject;
 

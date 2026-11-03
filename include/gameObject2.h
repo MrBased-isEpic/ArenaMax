@@ -17,4 +17,4 @@ void GameObject_AddComponent(
 
 Component* GameObject_GetComponent(
 	GameObject* gameObject,
-	uint32 type);
+	CompType type);

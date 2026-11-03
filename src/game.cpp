@@ -66,14 +66,7 @@ GameState* Logic_Start(
 
 void Logic_RefreshPhysicsReferences(GameState* gameState)
 {
-    if (!gameState->physicsState->isDynamicsRearranged) return;
-
-    gameState->vehicle.gameObject.rigidbody = Physics_GetRigidBody(
-        gameState->physicsState,
-        gameState->vehicle.gameObject.rigidbodyid);
-
-    gameState->physicsState->isDynamicsRearranged = false;
-
+    
     cout << "refreshed references" << endl;
 }
 
@@ -93,7 +86,7 @@ void Logic_Update(GameState* gameState, real32 timeStep)
 {
     Logic_RefreshPhysicsReferences(gameState);
 
-    Vehicle2_Update(
+    Vehicle_Update(
         &gameState->vehicle2,
         gameState->input,
         timeStep);

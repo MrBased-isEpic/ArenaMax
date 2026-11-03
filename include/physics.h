@@ -31,12 +31,8 @@ struct Collision
 
 struct PhysicsState
 {
-	uint16 rigidbodyIdCount = 0;
-
 	// List of rigidbodies that can move across the world
 	SwapBackArray dynamics;
-	//vector<RigidBody> dynamics = vector<RigidBody>(0);
-	bool isDynamicsRearranged = false;
 
 	// List of collisions that occurred this frame. 
 	// The game or the physics engine fetches it from here

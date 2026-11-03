@@ -1,6 +1,23 @@
 #include "gameObject.h"
 #include "gameObject2.h"
 
+void GameObject_SetComponentReference(
+	GameObject* gameObject,
+	CompType type,
+	Component* newAddress)
+{
+	for (int i = 0; i < gameObject->componentsCount; i++)
+	{
+		if (gameObject->components[i]->type == type)
+		{
+			gameObject->components[i] = newAddress;
+			return;
+		}
+	}
+
+	cout << "Could Not Find Specified Component Type in GameObject." << endl;
+}
+
 GameObject* GameObject_Create(GameState* gameState)
 {
 	GameObject gameObject = {};
@@ -49,7 +66,7 @@ void GameObject_AddComponent(
 
 Component* GameObject_GetComponent(
 	GameObject* gameObject,
-	uint32 type)
+	CompType type)
 {
 	for (int i = 0; i < gameObject->componentsCount; i++)
 	{

@@ -25,7 +25,7 @@ struct GameState
     SwapBackArray gameObjects;
     bool isGameObjectRearranged = false;
 
-    Vehicle2 vehicle2;
+    Vehicle vehicle2;
 
     Vehicle vehicle;
     Input input;
