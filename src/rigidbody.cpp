@@ -94,3 +94,24 @@ void RigidBody_Update(
 			rotChange) + t->translation;
 	}
 }
+
+void RigidBody_Delete(
+	Component* component,
+	GameState* gameState)
+{
+	RigidBody* rigidbody = (RigidBody*)component;
+	PhysicsState* physicsState = gameState->physicsState;
+
+	GameObject_RemoveComponentReference(
+		rigidbody->component.gameObject,
+		(Component*)rigidbody);
+
+	uint16 index;
+
+	Physics_GetRigidBody(physicsState, rigidbody->component.gameObjectId, &index);
+	SwapBackArray_Remove(&physicsState->dynamics, index);
+
+	GameObject_SetComponentReference(
+		rigidbody->component.gameObject,
+		(Component*)rigidbody);
+}

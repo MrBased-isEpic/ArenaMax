@@ -21,5 +21,8 @@ struct GameObject
 
 void GameObject_SetComponentReference(
 	GameObject* gameObject,
-	CompType type,
 	Component* newAddress);
+
+void GameObject_RemoveComponentReference(
+	GameObject* gameObject,
+	Component* component);

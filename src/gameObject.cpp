@@ -3,14 +3,29 @@
 
 void GameObject_SetComponentReference(
 	GameObject* gameObject,
-	CompType type,
 	Component* newAddress)
 {
 	for (int i = 0; i < gameObject->componentsCount; i++)
 	{
-		if (gameObject->components[i]->type == type)
+		if (gameObject->components[i]->type == newAddress->type)
 		{
 			gameObject->components[i] = newAddress;
+			return;
+		}
+	}
+
+	cout << "Could Not Find Specified Component Type in GameObject." << endl;
+}
+
+void GameObject_RemoveComponentReference(
+	GameObject* gameObject,
+	Component* component)
+{
+	for (int i = 0; i < gameObject->componentsCount; i++)
+	{
+		if (gameObject->components[i]->type == component->type)
+		{
+			gameObject->components[i] = nullptr;
 			return;
 		}
 	}

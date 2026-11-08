@@ -1,5 +1,6 @@
 #include "physics.h"
 #include "gameObject.h"
+#include "gamestate.h"
 
 PhysicsState* Physics_Start()
 {
@@ -8,12 +9,18 @@ PhysicsState* Physics_Start()
 	return physicState;
 }
 
-RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 id)
+RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 gameObjectId, uint16* index)
 {
-	for (int i = 0; i < physicsState->dynamics.count; i++)
+	uint16 i = 0;
+	if (index == nullptr)
 	{
-		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, i);
-		if(rb->component.id == id)
+		index = &i;
+	}
+
+	for (*index = 0; *index < physicsState->dynamics.count; *index++)
+	{
+		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, *index);
+		if(rb->component.gameObjectId == gameObjectId)
 			return rb;
 	}
 
@@ -232,28 +239,3 @@ void Physics_Update(PhysicsState* physicsState, real32 timeStep)
 
 	Physics_UpdateCollisions(physicsState);
 }
-
-void Physics_DeleteRigidBody(
-	PhysicsState* physicsState,
-	RigidBody* rigidBody)
-{
-
-}
-
-void Physics_DeleteRigidBody(
-	PhysicsState* physicsState,
-	RigidBody** rigidBody,
-	uint16 rigidbodyid)
-{
-	*rigidBody = nullptr;
-
-	for (int i = 0; i < physicsState->dynamics.count; i++)
-	{
-		if (((RigidBody*)SwapBackArray_Get(&physicsState->dynamics, i))
-			->component.id == rigidbodyid)
-		{
-			SwapBackArray_Remove(&physicsState->dynamics, i);
-			break;
-		}
-	}
-} 

@@ -54,7 +54,8 @@ void Physics_Update(
 
 RigidBody* Physics_GetRigidBody(
 	PhysicsState* physicsState,
-	uint16 id);
+	uint16 gameObjectId,
+	uint16* index = nullptr);
 
 uint16 Physics_AddRigidBody(
 	PhysicsState* physicsState,
@@ -63,13 +64,3 @@ uint16 Physics_AddRigidBody(
 	Vector3 points[],
 	uint8 numberOfPoints,
 	bool isStatic);
-
-//Component* Physics_AddRigidBody(
-//	GameState* gameState,
-//	GameObject* gameObject,
-//	ComponentForm* form);
-
-void Physics_DeleteRigidBody(
-	PhysicsState* physicsState,
-	RigidBody** rigidBody,
-	uint16 rigidbodyid);

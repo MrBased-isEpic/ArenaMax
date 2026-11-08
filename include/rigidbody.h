@@ -8,12 +8,17 @@ void RigidBody_InitReferences(
 	Component* component,
 	GameObject* gameObject);
 
+void RigidBody_Delete(
+	Component* component,
+	GameState* gameState);
+
 struct RigidBody
 {
 	Component component =
 	{
 		RIGIDBODY,
-		&RigidBody_InitReferences
+		&RigidBody_InitReferences,
+		&RigidBody_Delete
 	};
 
 	bool isStatic = true;
