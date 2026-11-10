@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include <iostream>
 #include <stdlib.h>
 #include <string.h>
 
@@ -31,3 +32,22 @@ void* SwapBackArray_Get(
 	uint16 index);
 
 void* SwapBackArray_Last(const SwapBackArray* array);
+
+
+struct LinearAllocator
+{
+	uint8* start = nullptr;
+	uint8* end = nullptr;
+
+	uint16 capacity = 0;
+};
+
+LinearAllocator LinearAllocator_Create(uint16 size);
+
+uint16 LinearAllocator_Size(LinearAllocator* linalloc);
+
+void* LinearAllocator_Push(LinearAllocator* linalloc, uint16 size);
+
+void LinearAllocator_Clear(LinearAllocator* linalloc);
+
+void LinearAllocator_Delete(LinearAllocator* linalloc);

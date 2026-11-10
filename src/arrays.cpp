@@ -63,3 +63,49 @@ void* SwapBackArray_Last(const SwapBackArray* array)
 {
 	return array->start + (array->elementSize * (array->count-1));
 }
+
+// LINEAR ALLOCATOR
+
+LinearAllocator LinearAllocator_Create(uint16 size)
+{
+	LinearAllocator linalloc = {};
+
+	linalloc.start = (uint8*)malloc(size);
+	linalloc.capacity = size;
+
+	linalloc.end = linalloc.start;
+
+	return linalloc;
+}
+
+uint16 LinearAllocator_Size(LinearAllocator* linalloc)
+{
+	return (uint16)(linalloc->end - linalloc->start);
+}
+
+void* LinearAllocator_Push(LinearAllocator* linalloc, uint16 size)
+{
+	if (LinearAllocator_Size(linalloc) > linalloc->capacity)
+	{
+		std::cout << "memory overflow detected, returning null" << std::endl;
+		return nullptr;
+	}
+
+	linalloc->capacity += size;
+	void* returnPtr = linalloc->end;
+	linalloc->end += size;
+	return returnPtr;
+}
+
+void LinearAllocator_Clear(LinearAllocator* linalloc)
+{
+	linalloc->end = linalloc->start;
+}
+
+void LinearAllocator_Delete(LinearAllocator* linalloc)
+{
+	free(linalloc->start);
+
+	linalloc->start = nullptr;
+	linalloc->end = nullptr;
+}
