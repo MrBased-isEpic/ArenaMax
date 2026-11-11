@@ -6,11 +6,6 @@ struct PolyRenderer;
 #include "component.h"
 #include "raylib.h"
 
-//struct ComponentRefList
-//{
-//	SwapBackArray list;
-//
-//};
 
 struct GameObject
 {

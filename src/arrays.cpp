@@ -2,13 +2,21 @@
 
 SwapBackArray SwapBackArray_Create(
 	uint16 elementSize,
-	uint16 capacity)
+	uint16 capacity,
+	void* address)
 {
 	SwapBackArray array = {};
 	array.elementSize = elementSize;
 	array.capacity = capacity;
 
-	array.start = (uint8*)malloc(elementSize * capacity);
+	if (address == nullptr)
+	{
+		array.start = (uint8*)malloc(elementSize * capacity);
+	}
+	else
+	{
+		array.start = (uint8*)address;
+	}
 
 	return array;
 }
@@ -16,7 +24,26 @@ SwapBackArray SwapBackArray_Create(
 void SwapBackArray_Destroy(SwapBackArray* array)
 {
 	free(array->start);
+	array->start = nullptr;
 	return;
+}
+
+uint16 SwapBackArray_GetSize(SwapBackArray* array)
+{
+	return array->count * array->elementSize;
+}
+
+void SwapBackArray_Relocate(SwapBackArray* array, void* newAddress, uint16 newcapacity)
+{
+	memcpy(newAddress,
+		(void*)array->start,
+		SwapBackArray_GetSize(array));
+
+	array->start = (uint8*)newAddress;
+	if (newcapacity > 0)
+	{
+		array->capacity = newcapacity;
+	}
 }
 
 void SwapBackArray_Add(

@@ -15,9 +15,14 @@ struct SwapBackArray
 
 SwapBackArray SwapBackArray_Create(
 	uint16 elementSize,
-	uint16 capacity);
+	uint16 capacity,
+	void* address = nullptr);
 
-void SwapBackArray_Destroy(const SwapBackArray* array);
+void SwapBackArray_Destroy(SwapBackArray* array);
+
+uint16 SwapBackArray_GetSize(SwapBackArray* array);
+
+void SwapBackArray_Relocate(SwapBackArray* array, void* newAddress, uint16 newcapacity = 0);
 
 void SwapBackArray_Add(
 	SwapBackArray* array,
@@ -33,6 +38,7 @@ void* SwapBackArray_Get(
 
 void* SwapBackArray_Last(const SwapBackArray* array);
 
+//LINEAR ALLOCATOR
 
 struct LinearAllocator
 {
@@ -44,7 +50,7 @@ struct LinearAllocator
 
 LinearAllocator LinearAllocator_Create(uint16 size);
 
-uint16 LinearAllocator_Size(LinearAllocator* linalloc);
+uint16 LinearAllocator_Size(const LinearAllocator* linalloc);
 
 void* LinearAllocator_Push(LinearAllocator* linalloc, uint16 size);
 
