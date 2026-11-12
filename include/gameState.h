@@ -25,9 +25,8 @@ struct GameState
     SwapBackArray gameObjects;
     bool isGameObjectRearranged = false;
 
-    Vehicle vehicle2;
-
     Vehicle vehicle;
+
     Input input;
 
     Camera2D camera;

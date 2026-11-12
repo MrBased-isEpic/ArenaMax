@@ -30,10 +30,10 @@ Component* Vehicle_Create(ComponentForm* form, GameState* gameState, GameObject*
     GeneratePolyPoints(rbForm.points, rbForm.numberOfPoints, 21.2);
     GameObject_AddComponent(gameObject, gameState, (ComponentForm*) &rbForm);
 
-    gameState->vehicle2 = vehicle;
-    vehicle.component.gameObject = gameObject;
+    gameState->vehicle = vehicle;
+    gameState->vehicle.component.gameObject = gameObject;
 
-    return (Component*)&gameState->vehicle2;
+    return (Component*)&gameState->vehicle;
 }
 
 void Vehicle_InitReferences(Component* component, GameObject* gameObject)

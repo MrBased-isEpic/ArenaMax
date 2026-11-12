@@ -5,6 +5,7 @@ struct GameState;
 
 #include "raylib.h"
 #include "types.h"
+#include "arrays.h"
 
 constexpr uint32 hashy(const char* str)
 {
@@ -33,3 +34,8 @@ struct Component
 	uint16 gameObjectId;
 	GameObject* gameObject;
 };
+
+Component* Component_GetWithId(
+	SwapBackArray* array,
+	uint16 gameObjectId,
+	uint16* index);

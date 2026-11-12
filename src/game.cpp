@@ -1,6 +1,7 @@
 #include "gameState.h"
 #include "rigidbodyform.h"
 #include "vehicleform.h"
+#include "polyrendererform.h"
 #include "logic.h"
 
 GameState* Logic_Start(
@@ -17,8 +18,6 @@ GameState* Logic_Start(
     gameState->physicsState = physicsState;
     gameState->renderState = renderState;
 
-    cout << "VEHICLE2 : " << VEHICLE << endl;
-
     gameState->input = {};
 
     gameState->gameObjects = SwapBackArray_Create(sizeof(GameObject), 5);
@@ -32,21 +31,20 @@ GameState* Logic_Start(
         gameState,
         (ComponentForm*)&VForm);
 
-    //Vehicle_Create(&gameState->vehicle, gameState->physicsState);
-
     GameObject* box = GameObject_Create(gameState);
 
     box->transform.translation = {500,100,0};
     box->transform.rotation = QuaternionFromEuler(0, 0, -90 * DEG2RAD);
     box->transform.scale = { 1,1,1 };
 
-    box->renderId = ShapeRenderer_Create(
-        gameState->renderState, 
-        &box->transform,
-        &box->shape,
-        5,
-        300,
-        GRAY);
+    PolyrendererForm pForm = {};
+    pForm.noOfSides = 5;
+    pForm.radius = 300;
+    pForm.color = GRAY;
+
+    GameObject_AddComponent(box,
+        gameState,
+        (ComponentForm*)&pForm);
 
     RigidbodyForm rbForm = {};
     rbForm.numberOfPoints = 5;
@@ -84,10 +82,10 @@ void GetInput(GameState* gameState)
 
 void Logic_Update(GameState* gameState, real32 timeStep)
 {
-    Logic_RefreshPhysicsReferences(gameState);
+    //Logic_RefreshPhysicsReferences(gameState);
 
     Vehicle_Update(
-        &gameState->vehicle2,
+        &gameState->vehicle,
         gameState->input,
         timeStep);
 

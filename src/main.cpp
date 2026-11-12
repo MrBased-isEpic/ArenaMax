@@ -82,7 +82,7 @@ int main()
 
         Renderer_Update(renderState);
         
-        GameObject* gameObject = gameState->vehicle2.component.gameObject;
+        GameObject* gameObject = gameState->vehicle.component.gameObject;
         
         Vector2 v1, v2, v3;
         GenerateTrianglePlots(

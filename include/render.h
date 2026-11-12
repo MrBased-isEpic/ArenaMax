@@ -6,13 +6,27 @@ struct Component;
 #include "raylib.h"
 #include "raymath.h"
 #include "types.h"
+#include "arrays.h"
 #include <vector>
 
 using namespace std;
 
+void PolyRenderer_InitReferences(
+	Component* component,
+	GameObject* gameObject);
+
+void PolyRenderer_Delete(
+	Component* component,
+	GameState* gameState);
+
 struct PolyRenderer
 {
-	Component component;
+	Component component = 
+	{
+		POLYRENDERER,
+		&PolyRenderer_InitReferences,
+		&PolyRenderer_Delete
+	};
 
 	Transform* transform = nullptr;
 	uint8 noOfSides = 4;
@@ -23,21 +37,10 @@ struct PolyRenderer
 
 struct RenderState
 {
-	uint16 rendererIdCount = 0;
-
 	// List of shapes to be rendered
-	vector<PolyRenderer> shapes = vector<PolyRenderer>(0);
-	bool isShapesRearranged = false;
+	SwapBackArray polys;
 };
 
 RenderState* Renderer_Start();
-
-uint16 ShapeRenderer_Create(
-	RenderState* renderState,
-	Transform* transform,
-	PolyRenderer** shapeRenderer,
-	uint8 numberOfSides,
-	real32 size,
-	Color color);
 
 void Renderer_Update(RenderState* renderState);

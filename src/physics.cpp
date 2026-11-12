@@ -11,20 +11,7 @@ PhysicsState* Physics_Start()
 
 RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 gameObjectId, uint16* index)
 {
-	uint16 i = 0;
-	if (index == nullptr)
-	{
-		index = &i;
-	}
-
-	for (*index = 0; *index < physicsState->dynamics.count; *index++)
-	{
-		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, *index);
-		if(rb->component.gameObjectId == gameObjectId)
-			return rb;
-	}
-
-	return nullptr;
+	return (RigidBody*)Component_GetWithId(&physicsState->dynamics, gameObjectId, index);
 }
 
 Vector3 perp(Vector3 v)
