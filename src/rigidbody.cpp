@@ -115,3 +115,16 @@ void RigidBody_Delete(
 		rigidbody->component.gameObject,
 		(Component*)rigidbody);
 }
+
+ComponentForm* RigidBody_GetForm(Component* component)
+{
+	RigidBody* rb = (RigidBody*)component;
+	RigidbodyForm* rbForm = (RigidbodyForm*)malloc(sizeof(RigidbodyForm));
+
+	memcpy(rbForm->points, rb->points, sizeof(Vector3) * rb->numberOfPoints);
+
+	rbForm->numberOfPoints = rb->numberOfPoints;
+	rbForm->isStatic = rb->isStatic;
+
+	return (ComponentForm*)rbForm;
+}

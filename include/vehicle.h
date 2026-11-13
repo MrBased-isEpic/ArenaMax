@@ -14,6 +14,8 @@ void Vehicle_InitReferences(
     Component* component,
     GameObject* gameObject);
 
+ComponentForm* Vehicle_GetForm(Component* component);
+
 struct Vehicle
 {
     Component component =

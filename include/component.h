@@ -2,6 +2,7 @@
 
 struct GameObject;
 struct GameState;
+struct ComponentForm;
 
 #include "raylib.h"
 #include "types.h"
@@ -29,6 +30,8 @@ struct Component
 	CompType type;
 	void (*Init_References)(Component* component, GameObject* gameObject);
 	void (*Delete)(Component* component, GameState* gameState);
+
+	ComponentForm* (*GetForm)(Component* component);
 
 	uint16 id;
 	uint16 gameObjectId;

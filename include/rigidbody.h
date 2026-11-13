@@ -12,13 +12,16 @@ void RigidBody_Delete(
 	Component* component,
 	GameState* gameState);
 
+ComponentForm* RigidBody_GetForm(Component* component);
+
 struct RigidBody
 {
 	Component component =
 	{
 		RIGIDBODY,
 		&RigidBody_InitReferences,
-		&RigidBody_Delete
+		&RigidBody_Delete,
+		&RigidBody_GetForm,
 	};
 
 	bool isStatic = true;

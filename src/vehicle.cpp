@@ -170,3 +170,21 @@ void Vehicle_Update(
     if (Vector3Length(*velocity) < 0.01f)
         *velocity = {};
 }
+
+ComponentForm* Vehicle_GetForm(Component* component)
+{
+    Vehicle* vehicle = (Vehicle*)component;
+    VehicleForm* vForm = (VehicleForm*)malloc(sizeof(VehicleForm));
+
+    *vForm = {};
+    vForm->maxSpeed = vehicle->maxSpeed;
+    vForm->acceleration = vehicle->acceleration;
+    vForm->deceleration = vehicle->deceleration;
+
+    vForm->rotationAcceleration = vehicle->rotationAcceleration;
+    vForm->maxRotationSpeed = vehicle->maxRotationSpeed;
+
+    vForm->maxSideWaysFriction = vehicle->maxSideWaysFriction;
+
+    return (ComponentForm*)vForm;
+}
