@@ -1,4 +1,6 @@
 #include "physics.h"
+#include "gameObject.h"
+#include "gamestate.h"
 
 PhysicsState* Physics_Start()
 {
@@ -7,16 +9,9 @@ PhysicsState* Physics_Start()
 	return physicState;
 }
 
-RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 id)
+RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 gameObjectId, uint16* index)
 {
-	for (int i = 0; i < physicsState->dynamics.count; i++)
-	{
-		RigidBody* rb = (RigidBody*)SwapBackArray_Get(&physicsState->dynamics, i);
-		if(rb->component.id == id)
-			return rb;
-	}
-
-	return nullptr;
+	return (RigidBody*)Component_GetWithId(&physicsState->dynamics, gameObjectId, index);
 }
 
 Vector3 perp(Vector3 v)
@@ -204,8 +199,10 @@ void Physics_ResolveCollisions(PhysicsState* physicsState)
 
 		rigidbody->velocity = newVelocity;
 
-		rigidbody->transform->translation =
-				Vector3Subtract(rigidbody->transform->translation, collision.mtv);
+		Transform* transform = &rigidbody->component.gameObject->transform;
+
+		transform->translation =
+				Vector3Subtract(transform->translation, collision.mtv);
 
 		for (int j = 0; j < rigidbody->numberOfPoints; j++)
 		{
@@ -228,118 +225,4 @@ void Physics_Update(PhysicsState* physicsState, real32 timeStep)
 	}
 
 	Physics_UpdateCollisions(physicsState);
-}
-
-
-uint16 Physics_AddRigidBody(
-	PhysicsState* physicsState,
-	Transform* transform,
-	RigidBody** rigidBody,
-	Vector3 points[],
-	uint8 numberOfPoints,
-	bool isStatic)
-{
-	///cout << endl << "Creating a Rigidbody.." << endl;
-
-	RigidBody rb = {};
-	rb.component.type = RIGIDBODY;
-	rb.velocity = {0,0,0};
-	rb.angularVelocity = { 0,0,0 };
-	rb.transform = transform;
-	rb.numberOfPoints = numberOfPoints;
-
-	Matrix mat = MatrixCompose(
-		rb.transform->translation,
-		rb.transform->rotation,
-		rb.transform->scale);
-
-	if (numberOfPoints == 1)
-	{
-		numberOfPoints = 2;
-	}
-
-	for (int i = 0; i < numberOfPoints; i++)
-	{
-		rb.points[i] = Vector3Transform(points[i], mat);
-		//cout <<rb.points[i].x << ":" << rb.points[i].y << endl;
-	}
-
-	Rigidbody_GetNormals(&rb);
-
-	rb.isStatic = isStatic;
-	rb.component.id = physicsState->rigidbodyIdCount++;
-
-	SwapBackArray_Add(&physicsState->dynamics, (void*) & rb);
-
-	//physicsState->dynamics.push_back(rb);
-
-	*rigidBody = (RigidBody*)SwapBackArray_Last(&physicsState->dynamics);
-
-	return rb.component.id;
-}
-
-//Component* Physics_AddRigidBody(
-//	GameState* gameState,
-//	GameObject* gameObject,
-//	ComponentForm* form)
-//{
-//	///cout << endl << "Creating a Rigidbody.." << endl;
-//
-//	RigidBody rb = {};
-//	RigidBodyForm* rbForm = (RigidBodyForm*)form;
-//	PhysicsState* physicsState = gameState->physicsState;
-//
-//
-//	rb.component.type = RIGIDBODY;
-//	rb.velocity = { 0,0,0 };
-//	rb.angularVelocity = { 0,0,0 };
-//	rb.transform = &gameObject->transform;
-//	rb.numberOfPoints = rbForm->numberOfPoints;
-//
-//	Matrix mat = MatrixCompose(
-//		rb.transform->translation,
-//		rb.transform->rotation,
-//		rb.transform->scale);
-//
-//	if (rbForm->numberOfPoints == 1)
-//	{
-//		rbForm->numberOfPoints = 2;
-//	}
-//
-//	for (int i = 0; i < rbForm->numberOfPoints; i++)
-//	{
-//		rb.points[i] = Vector3Transform(rbForm->points[i], mat);
-//		//cout <<rb.points[i].x << ":" << rb.points[i].y << endl;
-//	}
-//
-//	Rigidbody_GetNormals(&rb);
-//
-//	rb.isStatic = rbForm->isStatic;
-//	rb.component.id = physicsState->rigidbodyIdCount++;
-//
-//	SwapBackArray_Add(&physicsState->dynamics, (void*)&rb);
-//
-//	RigidBody* rbPtr = (RigidBody*)SwapBackArray_Last(&physicsState->dynamics);
-//
-//	return (Component*)rbPtr;
-//}
-
-void Physics_DeleteRigidBody(
-	PhysicsState* physicsState,
-	RigidBody** rigidBody,
-	uint16 rigidbodyid)
-{
-	*rigidBody = nullptr;
-
-	for (int i = 0; i < physicsState->dynamics.count; i++)
-	{
-		if (((RigidBody*)SwapBackArray_Get(&physicsState->dynamics, i))
-			->component.id == rigidbodyid)
-		{
-			SwapBackArray_Remove(&physicsState->dynamics, i);
-			break;
-		}
-	}
-
-	physicsState->isDynamicsRearranged = true;
 }

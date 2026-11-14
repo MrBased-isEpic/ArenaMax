@@ -1,45 +1,54 @@
 #include "vehicle.h"
+#include "vehicleform.h"
 
 using namespace std;
 
-void Vehicle_Create(Vehicle* vehicle, PhysicsState* physicsState)
+Component* Vehicle_Create(ComponentForm* form, GameState* gameState, GameObject* gameObject)
 {
-    Transform* transform = &vehicle->gameObject.transform;
+    Vehicle vehicle = {};
+
+    VehicleForm* vehicleForm = (VehicleForm*)form;
+
+    Transform* transform = &gameObject->transform;
     transform->translation = { 0, 0 };
+    transform->rotation = { 0,0,0,1 };
+    transform->scale = { 1,1,1 };
 
-    transform->rotation = {0,0,0,1};
-    transform->scale = {1,1,1};
+    vehicle.maxSpeed = vehicleForm->maxSpeed;
+    vehicle.acceleration = vehicleForm->acceleration;
+    vehicle.deceleration = vehicleForm->deceleration;
 
-    GameObject* gameObject = &vehicle->gameObject;
+    vehicle.maxRotationSpeed = vehicleForm->maxRotationSpeed;
+    vehicle.rotationAcceleration = vehicleForm->rotationAcceleration;
+    vehicle.maxSideWaysFriction = vehicleForm->maxSideWaysFriction;
 
-    vehicle->maxSpeed = 600;
-    vehicle->acceleration = 500;
-    vehicle->deceleration = 100;
+    RigidbodyForm rbForm = {};
+    
+    rbForm.numberOfPoints = 4;
+    rbForm.isStatic = false;
+    
+    GeneratePolyPoints(rbForm.points, rbForm.numberOfPoints, 21.2);
+    GameObject_AddComponent(gameObject, gameState, (ComponentForm*) &rbForm);
 
-    vehicle->maxRotationSpeed = 270;
-    vehicle->rotationAcceleration = 891;
+    gameState->vehicle = vehicle;
+    gameState->vehicle.component.gameObject = gameObject;
 
-    Vector3 points[4] = {};
-
-    GeneratePolyPoints(points, 4, 21.2);
-   
-    gameObject->rigidbodyid = Physics_AddRigidBody(
-        physicsState,
-        transform,
-        &gameObject->rigidbody,
-        points,
-        4,
-        false);
-
-    vehicle->maxSideWaysFriction = 500;
+    return (Component*)&gameState->vehicle;
 }
+
+void Vehicle_InitReferences(Component* component, GameObject* gameObject)
+{
+    return;
+}
+
 
 void Vehicle_Update(
     Vehicle* vehicle,
     Input input,
     float timeStep)
 {
-    RigidBody* rb = vehicle->gameObject.rigidbody;
+    GameObject* gameObject = vehicle->component.gameObject;
+    RigidBody* rb = (RigidBody*)GameObject_GetComponent(gameObject, RIGIDBODY);
 
     Vector3* velocity = &(rb->velocity);
 
@@ -47,7 +56,7 @@ void Vehicle_Update(
 
     *angularVelocity *= RAD2DEG;
 
-    Vector3 forward = TransformGetForward(vehicle->gameObject.transform);
+    Vector3 forward = TransformGetForward(gameObject->transform);
     Vector3 velocityDir = Vector3Normalize(*velocity);
 
     // Acceleration / Deceleration
@@ -56,7 +65,7 @@ void Vehicle_Update(
         Vector3 forward = { 0,-1,0 };
         forward = Vector3Transform(
             forward,
-            QuaternionToMatrix(vehicle->gameObject.transform.rotation));
+            QuaternionToMatrix(gameObject->transform.rotation));
 
         Vector3 deceleration = Vector3Scale(
             forward,
@@ -71,7 +80,7 @@ void Vehicle_Update(
             0,
             vehicle->maxSpeed);
     }
-    else if(Vector3Length(*velocity) > 0.01f)
+    else if (Vector3Length(*velocity) > 0.01f)
     {
         Vector3 directionToDecelerate = Vector3Negate(velocityDir);
 
@@ -99,12 +108,12 @@ void Vehicle_Update(
         *angularVelocity +=
             (vehicle->rotationAcceleration * rotationDir) * timeStep;
 
-        *angularVelocity =Clamp(
+        *angularVelocity = Clamp(
             *angularVelocity,
             -vehicle->maxRotationSpeed,
             vehicle->maxRotationSpeed);
     }
-    else if(Abs(*angularVelocity) > 0)
+    else if (Abs(*angularVelocity) > 0)
     {
         real32 dir = *angularVelocity > 0 ? -1 : 1;
 
@@ -132,14 +141,14 @@ void Vehicle_Update(
         *velocity,
         { 0,0,1 },
         angle * timeStep);
-    
+
 
     // If vehicle not aligned with current velocity, lower velocity
     // Friction simulation
     real32 rotationBasedDeceleration = Vector3DotProduct(
         forward,
         Vector3Normalize(*velocity));
-    
+
     rotationBasedDeceleration = Clamp(
         Abs(rotationBasedDeceleration),
         0,
@@ -153,11 +162,29 @@ void Vehicle_Update(
         directionToDecelerate,
         (vehicle->maxSideWaysFriction * rotationBasedDeceleration) *
         timeStep);
-    
+
     *velocity = Vector3Add(
         *velocity,
         deceleration);
 
     if (Vector3Length(*velocity) < 0.01f)
         *velocity = {};
+}
+
+ComponentForm* Vehicle_GetForm(Component* component)
+{
+    Vehicle* vehicle = (Vehicle*)component;
+    VehicleForm* vForm = (VehicleForm*)malloc(sizeof(VehicleForm));
+
+    *vForm = {};
+    vForm->maxSpeed = vehicle->maxSpeed;
+    vForm->acceleration = vehicle->acceleration;
+    vForm->deceleration = vehicle->deceleration;
+
+    vForm->rotationAcceleration = vehicle->rotationAcceleration;
+    vForm->maxRotationSpeed = vehicle->maxRotationSpeed;
+
+    vForm->maxSideWaysFriction = vehicle->maxSideWaysFriction;
+
+    return (ComponentForm*)vForm;
 }

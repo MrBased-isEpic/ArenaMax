@@ -5,7 +5,7 @@ Camera2D Camera_Create(GameState* gameState)
 {
     Camera2D camera = { 0 };
 
-    camera.target = gameState->vehicle.gameObject.transform.translation.xy;
+    camera.target = gameState->vehicle.component.gameObject->transform.translation.xy;
 
     camera.offset = {
         gameState->screenWidth / 2.0f,
@@ -18,5 +18,5 @@ Camera2D Camera_Create(GameState* gameState)
 
 void Camera_Update(GameState* gameState)
 {
-    gameState->camera.target = gameState->vehicle.gameObject.transform.translation.xy;
+    gameState->camera.target = gameState->vehicle.component.gameObject->transform.translation.xy;
 }

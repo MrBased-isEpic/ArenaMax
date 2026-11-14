@@ -2,49 +2,23 @@
 #include "rigidbody.h"
 #include "component2.h"
 
-
-Component* RigidBody_Create(
-	GameState* gameState,
-	GameObject* gameObject,
-	ComponentForm* form)
+Component* Component_GetWithId(
+	SwapBackArray* array,
+	uint16 gameObjectId,
+	uint16* index)
 {
-	///cout << endl << "Creating a Rigidbody.." << endl;
-
-	RigidBody rb = {};
-	RigidbodyForm* rbForm = (RigidbodyForm*)form;
-	PhysicsState* physicsState = gameState->physicsState;
-
-
-	rb.component.type = RIGIDBODY;
-	rb.velocity = { 0,0,0 };
-	rb.angularVelocity = { 0,0,0 };
-	rb.transform = &gameObject->transform;
-	rb.numberOfPoints = rbForm->numberOfPoints;
-
-	Matrix mat = MatrixCompose(
-		rb.transform->translation,
-		rb.transform->rotation,
-		rb.transform->scale);
-
-	if (rbForm->numberOfPoints == 1)
+	uint16 i = 0;
+	if (index == nullptr)
 	{
-		rbForm->numberOfPoints = 2;
+		index = &i;
 	}
 
-	for (int i = 0; i < rbForm->numberOfPoints; i++)
+	for (*index = 0; *index < array->count; *index++)
 	{
-		rb.points[i] = Vector3Transform(rbForm->points[i], mat);
-		//cout <<rb.points[i].x << ":" << rb.points[i].y << endl;
+		Component* comp = (Component*)SwapBackArray_Get(array, *index);
+		if (comp->gameObjectId == gameObjectId)
+			return comp;
 	}
 
-	Rigidbody_GetNormals(&rb);
-
-	rb.isStatic = rbForm->isStatic;
-	rb.component.id = physicsState->rigidbodyIdCount++;
-
-	SwapBackArray_Add(&physicsState->dynamics, (void*)&rb);
-
-	RigidBody* rbPtr = (RigidBody*)SwapBackArray_Last(&physicsState->dynamics);
-
-	return (Component*)rbPtr;
+	return nullptr;
 }

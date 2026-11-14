@@ -2036,21 +2036,21 @@ float rlGetLineWidth(void)
 }
 
 // Set the point drawing size
-void rlSetPointSize(float size)
+void rlSetPointSize(float capacity)
 {
 #if defined(GRAPHICS_API_OPENGL_11)
-    glPointSize(size);
+    glPointSize(capacity);
 #endif
 }
 
 // Get the point drawing size
 float rlGetPointSize(void)
 {
-    float size = 1;
+    float capacity = 1;
 #if defined(GRAPHICS_API_OPENGL_11)
-    glGetFloatv(GL_POINT_SIZE, &size);
+    glGetFloatv(GL_POINT_SIZE, &capacity);
 #endif
-    return size;
+    return capacity;
 
 }
 
@@ -3493,19 +3493,19 @@ unsigned int rlLoadTextureDepth(int width, int height, bool useRenderBuffer)
 // Load texture cubemap
 // NOTE: Cubemap data is expected to be 6 images in a single data array (one after the other),
 // expected the following convention: +X, -X, +Y, -Y, +Z, -Z
-unsigned int rlLoadTextureCubemap(const void *data, int size, int format, int mipmapCount)
+unsigned int rlLoadTextureCubemap(const void *data, int capacity, int format, int mipmapCount)
 {
     unsigned int id = 0;
     if (!isGpuReady) { TRACELOG(RL_LOG_WARNING, "GL: GPU is not ready to load data, trying to load before InitWindow()?"); return id; }
 
 #if defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2)
-    int mipSize = size;
+    int mipSize = capacity;
 
     // NOTE: Added pointer math separately from function to avoid UBSAN complaining
     unsigned char *dataPtr = NULL;
     if (data != NULL) dataPtr = (unsigned char *)data;
 
-    unsigned int dataSize = rlGetPixelDataSize(size, size, format);
+    unsigned int dataSize = rlGetPixelDataSize(capacity, capacity, format);
 
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_CUBE_MAP, id);
@@ -3582,7 +3582,7 @@ unsigned int rlLoadTextureCubemap(const void *data, int size, int format, int mi
     glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 #endif
 
-    if (id > 0) TRACELOG(RL_LOG_INFO, "TEXTURE: [ID %i] Cubemap texture loaded successfully (%ix%i)", id, size, size);
+    if (id > 0) TRACELOG(RL_LOG_INFO, "TEXTURE: [ID %i] Cubemap texture loaded successfully (%ix%i)", id, capacity, capacity);
     else TRACELOG(RL_LOG_WARNING, "TEXTURE: Failed to load cubemap texture");
 
     return id;
@@ -3740,11 +3740,11 @@ void *rlReadTexturePixels(unsigned int id, int width, int height, int format)
 
     unsigned int glInternalFormat, glFormat, glType;
     rlGetGlTextureFormats(format, &glInternalFormat, &glFormat, &glType);
-    unsigned int size = rlGetPixelDataSize(width, height, format);
+    unsigned int capacity = rlGetPixelDataSize(width, height, format);
 
     if ((glInternalFormat != 0) && (format < RL_PIXELFORMAT_COMPRESSED_DXT1_RGB))
     {
-        pixels = RL_CALLOC(size, 1);
+        pixels = RL_CALLOC(capacity, 1);
         glGetTexImage(GL_TEXTURE_2D, 0, glFormat, glType, pixels);
     }
     else TRACELOG(RL_LOG_WARNING, "TEXTURE: [ID %i] Data retrieval not suported for pixel format (%i)", id, format);
@@ -3956,7 +3956,7 @@ void rlUnloadFramebuffer(unsigned int id)
 // Vertex data management
 //-----------------------------------------------------------------------------------------
 // Load a new attributes buffer
-unsigned int rlLoadVertexBuffer(const void *buffer, int size, bool dynamic)
+unsigned int rlLoadVertexBuffer(const void *buffer, int capacity, bool dynamic)
 {
     unsigned int id = 0;
     if (!isGpuReady) { TRACELOG(RL_LOG_WARNING, "GL: GPU is not ready to load data, trying to load before InitWindow()?"); return id; }
@@ -3964,14 +3964,14 @@ unsigned int rlLoadVertexBuffer(const void *buffer, int size, bool dynamic)
 #if defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2)
     glGenBuffers(1, &id);
     glBindBuffer(GL_ARRAY_BUFFER, id);
-    glBufferData(GL_ARRAY_BUFFER, size, buffer, dynamic? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, capacity, buffer, dynamic? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 #endif
 
     return id;
 }
 
 // Load a new attributes element buffer
-unsigned int rlLoadVertexBufferElement(const void *buffer, int size, bool dynamic)
+unsigned int rlLoadVertexBufferElement(const void *buffer, int capacity, bool dynamic)
 {
     unsigned int id = 0;
     if (!isGpuReady) { TRACELOG(RL_LOG_WARNING, "GL: GPU is not ready to load data, trying to load before InitWindow()?"); return id; }
@@ -3979,7 +3979,7 @@ unsigned int rlLoadVertexBufferElement(const void *buffer, int size, bool dynami
 #if defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2)
     glGenBuffers(1, &id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, buffer, dynamic? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, capacity, buffer, dynamic? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 #endif
 
     return id;
@@ -4616,14 +4616,14 @@ void rlComputeShaderDispatch(unsigned int groupX, unsigned int groupY, unsigned 
 }
 
 // Load shader storage buffer object (SSBO)
-unsigned int rlLoadShaderBuffer(unsigned int size, const void *data, int usageHint)
+unsigned int rlLoadShaderBuffer(unsigned int capacity, const void *data, int usageHint)
 {
     unsigned int ssbo = 0;
 
 #if defined(GRAPHICS_API_OPENGL_43)
     glGenBuffers(1, &ssbo);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, size, data, usageHint? usageHint : RL_STREAM_COPY);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, capacity, data, usageHint? usageHint : RL_STREAM_COPY);
     if (data == NULL) glClearBufferData(GL_SHADER_STORAGE_BUFFER, GL_R8UI, GL_RED_INTEGER, GL_UNSIGNED_BYTE, NULL);    // Clear buffer data to 0
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 #else
@@ -4657,10 +4657,10 @@ unsigned int rlGetShaderBufferSize(unsigned int id)
 {
     unsigned int result = 0;
 #if defined(GRAPHICS_API_OPENGL_43)
-    GLint64 size = 0;
+    GLint64 capacity = 0;
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, id);
-    glGetBufferParameteri64v(GL_SHADER_STORAGE_BUFFER, GL_BUFFER_SIZE, &size);
-    if (size > 0) result = (unsigned int)size;
+    glGetBufferParameteri64v(GL_SHADER_STORAGE_BUFFER, GL_BUFFER_SIZE, &capacity);
+    if (capacity > 0) result = (unsigned int)capacity;
 #endif
     return result;
 }

@@ -1,51 +1,105 @@
 #include "render.h"
+#include "polyrendererform.h"
 
 RenderState* Renderer_Start()
 {
 	RenderState* renderState = new RenderState;
-	renderState->shapes.reserve(5);
+	//renderState->shapes.reserve(5);
+ 	renderState->polys = SwapBackArray_Create(sizeof(PolyRenderer), 5);
+
 	return renderState;
 }
 
 void Renderer_Update(RenderState* renderState)
 {
-	for (int i = 0; i < renderState->shapes.size(); i++)
+	for (int i = 0; i < renderState->polys.count; i++)
 	{
-		PolyRenderer sr = renderState->shapes[i];
-		Transform transform = *sr.transform;
+		PolyRenderer* sr = (PolyRenderer*)SwapBackArray_Get(&renderState->polys, i);
+		Transform transform = *sr->transform;
 
 		DrawPoly(
 			transform.translation.xy,
-			sr.noOfSides,
-			sr.size,
+			sr->noOfSides,
+			sr->size,
 			(QuaternionToEuler(transform.rotation).z *
-				RAD2DEG) + sr.rotationOffset,
-			sr.color);
+				RAD2DEG) + sr->rotationOffset,
+			sr->color);
 	}
 }
 
-uint16 ShapeRenderer_Create(
-	RenderState* renderState,
-	Transform* transform,
-	PolyRenderer** shapeRenderer,
-	uint8 numberOfSides,
-	real32 size,
-	Color color)
+Component* Polyrenderer_Create(
+	ComponentForm* form,
+	GameState* gameState,
+	GameObject* gameObject)
 {
-	PolyRenderer sr = {};
-	sr.component.type = POLYRENDERER;
-	sr.noOfSides = numberOfSides;
-	sr.size = size;
-	sr.color = color;
-	sr.rotationOffset = 0;
+	RenderState* renderState = gameState->renderState;
+	PolyrendererForm* pForm = (PolyrendererForm*)form;
+	PolyRenderer r = {};
 
-	sr.transform = transform;
+	r.noOfSides = pForm->noOfSides;
+	r.size = pForm->radius;
+	r.color = pForm->color;
+	r.rotationOffset = pForm->rotationOffset;
 
-	sr.component.id = renderState->rendererIdCount++;
+	r.component.gameObjectId = gameObject->id;
+	r.transform = &gameObject->transform;
 
-	renderState->shapes.push_back(sr);
+	SwapBackArray_Add(&renderState->polys, &r);
 
-	*shapeRenderer = &renderState->shapes.back();
-
-	return sr.component.id;
+	return (Component*)SwapBackArray_Last(&renderState->polys);
 }
+
+void PolyRenderer_InitReferences(
+	Component* component,
+	GameObject* gameObject)
+{
+	PolyRenderer* r = (PolyRenderer*)component;
+	r->transform = &gameObject->transform;
+}
+
+void PolyRenderer_Delete(
+	Component* component,
+	GameState* gameState)
+{
+	PolyRenderer* polyRenderer = (PolyRenderer*)component;
+	RenderState* renderState = gameState->renderState;
+
+	GameObject_RemoveComponentReference(
+		polyRenderer->component.gameObject,
+		(Component*)polyRenderer);
+
+	uint16 index;
+
+	Component_GetWithId(&renderState->polys, polyRenderer->component.gameObjectId, &index);
+	SwapBackArray_Remove(&renderState->polys, index);
+
+	GameObject_SetComponentReference(
+		polyRenderer->component.gameObject,
+		(Component*)polyRenderer);
+}
+
+//uint16 ShapeRenderer_Create(
+//	RenderState* renderState,
+//	Transform* transform,
+//	PolyRenderer** shapeRenderer,
+//	uint8 numberOfSides,
+//	real32 size,
+//	Color color)
+//{
+//	PolyRenderer sr = {};
+//	sr.component.type = POLYRENDERER;
+//	sr.noOfSides = numberOfSides;
+//	sr.size = size;
+//	sr.color = color;
+//	sr.rotationOffset = 0;
+//
+//	sr.transform = transform;
+//
+//	sr.component.id = renderState->rendererIdCount++;
+//
+//	renderState->shapes.push_back(sr);
+//
+//	*shapeRenderer = &renderState->shapes.back();
+//
+//	return sr.component.id;
+//}

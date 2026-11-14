@@ -1,4 +1,56 @@
 #include "rigidbody.h"
+#include "rigidbodyform.h"
+
+Component* RigidBody_Create(ComponentForm* form, GameState* gameState, GameObject* gameObject)
+{
+	///cout << endl << "Creating a Rigidbody.." << endl;
+
+	RigidBody rb = {};
+	RigidbodyForm* rbForm = (RigidbodyForm*)form;
+	PhysicsState* physicsState = gameState->physicsState;
+
+	rb.component.type = RIGIDBODY;
+	rb.component.gameObjectId = gameObject->id;
+	rb.component.gameObject = gameObject;
+
+	rb.velocity = { 0,0,0 };
+	rb.angularVelocity = { 0,0,0 };
+	rb.numberOfPoints = rbForm->numberOfPoints;
+
+	Transform* t = &gameObject->transform;
+
+	Matrix mat = MatrixCompose(
+		t->translation,
+		t->rotation,
+		t->scale);
+
+	if (rbForm->numberOfPoints == 1)
+	{
+		rbForm->numberOfPoints = 2;
+	}
+
+	for (int i = 0; i < rbForm->numberOfPoints; i++)
+	{
+		rb.points[i] = Vector3Transform(rbForm->points[i], mat);
+		//cout <<rb.points[i].x << ":" << rb.points[i].y << endl;
+	}
+
+	Rigidbody_GetNormals(&rb);
+
+	rb.isStatic = rbForm->isStatic;
+
+	SwapBackArray_Add(&physicsState->dynamics, (void*)&rb);
+
+	RigidBody* rbPtr = (RigidBody*)SwapBackArray_Last(&physicsState->dynamics);
+
+	return (Component*)rbPtr;
+}
+
+void RigidBody_InitReferences(Component* component, GameObject* gameObject)
+{
+	return;
+}
+
 
 void RigidBody_Update(
 	RigidBody* rigidbody,
@@ -6,7 +58,7 @@ void RigidBody_Update(
 {
 	if (rigidbody->isStatic) return;
 
-	Transform* t = rigidbody->transform;
+	Transform* t = &rigidbody->component.gameObject->transform;
 
 	// Apply Velocity to given transform
 
@@ -41,4 +93,38 @@ void RigidBody_Update(
 			localPoint,
 			rotChange) + t->translation;
 	}
+}
+
+void RigidBody_Delete(
+	Component* component,
+	GameState* gameState)
+{
+	RigidBody* rigidbody = (RigidBody*)component;
+	PhysicsState* physicsState = gameState->physicsState;
+
+	GameObject_RemoveComponentReference(
+		rigidbody->component.gameObject,
+		(Component*)rigidbody);
+
+	uint16 index;
+
+	Physics_GetRigidBody(physicsState, rigidbody->component.gameObjectId, &index);
+	SwapBackArray_Remove(&physicsState->dynamics, index);
+
+	GameObject_SetComponentReference(
+		rigidbody->component.gameObject,
+		(Component*)rigidbody);
+}
+
+ComponentForm* RigidBody_GetForm(Component* component)
+{
+	RigidBody* rb = (RigidBody*)component;
+	RigidbodyForm* rbForm = (RigidbodyForm*)malloc(sizeof(RigidbodyForm));
+
+	memcpy(rbForm->points, rb->points, sizeof(Vector3) * rb->numberOfPoints);
+
+	rbForm->numberOfPoints = rb->numberOfPoints;
+	rbForm->isStatic = rb->isStatic;
+
+	return (ComponentForm*)rbForm;
 }

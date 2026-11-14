@@ -31,12 +31,8 @@ struct Collision
 
 struct PhysicsState
 {
-	uint16 rigidbodyIdCount = 0;
-
 	// List of rigidbodies that can move across the world
 	SwapBackArray dynamics;
-	//vector<RigidBody> dynamics = vector<RigidBody>(0);
-	bool isDynamicsRearranged = false;
 
 	// List of collisions that occurred this frame. 
 	// The game or the physics engine fetches it from here
@@ -58,7 +54,8 @@ void Physics_Update(
 
 RigidBody* Physics_GetRigidBody(
 	PhysicsState* physicsState,
-	uint16 id);
+	uint16 gameObjectId,
+	uint16* index = nullptr);
 
 uint16 Physics_AddRigidBody(
 	PhysicsState* physicsState,
@@ -67,13 +64,3 @@ uint16 Physics_AddRigidBody(
 	Vector3 points[],
 	uint8 numberOfPoints,
 	bool isStatic);
-
-//Component* Physics_AddRigidBody(
-//	GameState* gameState,
-//	GameObject* gameObject,
-//	ComponentForm* form);
-
-void Physics_DeleteRigidBody(
-	PhysicsState* physicsState,
-	RigidBody** rigidBody,
-	uint16 rigidbodyid);

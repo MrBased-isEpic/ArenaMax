@@ -82,8 +82,8 @@ int main()
 
         Renderer_Update(renderState);
         
-        GameObject* gameObject = &gameState->vehicle.gameObject;
-
+        GameObject* gameObject = gameState->vehicle.component.gameObject;
+        
         Vector2 v1, v2, v3;
         GenerateTrianglePlots(
             &v1,
@@ -91,9 +91,9 @@ int main()
             &v3,
             15,
             gameObject->transform);
-
+        
         DrawTriangle(v1, v2, v3, BLUE);
-
+        
         DrawColliders(physicsState);
 
         EndMode2D();

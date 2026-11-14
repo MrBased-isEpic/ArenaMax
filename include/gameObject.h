@@ -15,13 +15,14 @@ struct GameObject
 	Component* components[5] = {};
 	uint16 componentsCount = 0;
 
-	RigidBody* rigidbody;
-	uint16 rigidbodyid;
-
 	PolyRenderer* shape;
 	uint16 renderId;
 };
 
-GameObject GameObjectCreate();
+void GameObject_SetComponentReference(
+	GameObject* gameObject,
+	Component* newAddress);
 
-void AddComponent();
+void GameObject_RemoveComponentReference(
+	GameObject* gameObject,
+	Component* component);
