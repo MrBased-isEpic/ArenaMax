@@ -9,6 +9,7 @@ struct Component;
 #include "raylib.h"
 #include "physics.h"
 #include "gameObject.h"
+#include "gameObject2.h"
 #include "render.h"
 #include "camera.h"
 #include <vector>
@@ -24,6 +25,9 @@ struct GameState
     uint16 gameObjectIdCount = 1;
     SwapBackArray gameObjects;
     bool isGameObjectRearranged = false;
+
+    //GameObjectForm* gameObjectForm;
+    bool madeForm = false;
 
     Vehicle vehicle;
 

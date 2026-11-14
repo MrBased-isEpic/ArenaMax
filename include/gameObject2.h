@@ -24,3 +24,5 @@ struct GameObjectForm
 	char name[64];
 	uint16 noOfComponents = 0;
 };
+
+GameObjectForm* GameObject_GetForm(GameObject* gameObject);

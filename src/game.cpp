@@ -12,6 +12,8 @@ GameState* Logic_Start(
 {
     GameState* gameState = (struct GameState*)malloc(sizeof(struct GameState));
 
+    *gameState = {};
+
     gameState->screenWidth = screenWidth;
     gameState->screenHeight = screenHeight;
 
@@ -83,6 +85,12 @@ void GetInput(GameState* gameState)
 void Logic_Update(GameState* gameState, real32 timeStep)
 {
     //Logic_RefreshPhysicsReferences(gameState);
+
+    if (gameState->input.makeForm && !gameState->madeForm)
+    {
+        GameObject_GetForm((GameObject*)SwapBackArray_Get(&gameState->gameObjects, 1));
+        gameState->madeForm = true;
+    }
 
     Vehicle_Update(
         &gameState->vehicle,

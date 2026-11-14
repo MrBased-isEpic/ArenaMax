@@ -5,18 +5,17 @@ struct PolyRenderer;
 
 #include "component.h"
 #include "raylib.h"
+#include "arrays.h"
 
 
 struct GameObject
 {
+	char name[64];
 	uint16 id;
 	Transform transform;
 
 	Component* components[5] = {};
 	uint16 componentsCount = 0;
-
-	PolyRenderer* shape;
-	uint16 renderId;
 };
 
 void GameObject_SetComponentReference(

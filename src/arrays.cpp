@@ -105,7 +105,7 @@ LinearAllocator LinearAllocator_Create(uint16 size)
 	return linalloc;
 }
 
-uint16 LinearAllocator_Size(LinearAllocator* linalloc)
+uint16 LinearAllocator_Size(const LinearAllocator* linalloc)
 {
 	return (uint16)(linalloc->end - linalloc->start);
 }

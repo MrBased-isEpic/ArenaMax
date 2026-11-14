@@ -83,6 +83,8 @@ ComponentForm* PolyRenderer_GetForm(Component* component)
 	PolyRenderer* poly = (PolyRenderer*)component;
 	PolyrendererForm* pForm = (PolyrendererForm*)malloc(sizeof(PolyrendererForm));
 
+	*pForm = {};
+
 	pForm->noOfSides = poly->noOfSides;
 	pForm->radius = poly->size;
 	pForm->color = poly->color;

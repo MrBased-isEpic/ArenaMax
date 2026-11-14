@@ -121,6 +121,8 @@ ComponentForm* RigidBody_GetForm(Component* component)
 	RigidBody* rb = (RigidBody*)component;
 	RigidbodyForm* rbForm = (RigidbodyForm*)malloc(sizeof(RigidbodyForm));
 
+	*rbForm = {};
+
 	memcpy(rbForm->points, rb->points, sizeof(Vector3) * rb->numberOfPoints);
 
 	rbForm->numberOfPoints = rb->numberOfPoints;

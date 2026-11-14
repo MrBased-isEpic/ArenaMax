@@ -18,4 +18,9 @@ void Input_Get(Input* input)
     {
         input->right = true;
     }
+
+    if (IsKeyDown(KEY_P))
+    {
+        input->makeForm = true;
+    }
 }
