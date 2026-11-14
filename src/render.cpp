@@ -78,6 +78,19 @@ void PolyRenderer_Delete(
 		(Component*)polyRenderer);
 }
 
+ComponentForm* PolyRenderer_GetForm(Component* component)
+{
+	PolyRenderer* poly = (PolyRenderer*)component;
+	PolyrendererForm* pForm = (PolyrendererForm*)malloc(sizeof(PolyrendererForm));
+
+	pForm->noOfSides = poly->noOfSides;
+	pForm->radius = poly->size;
+	pForm->color = poly->color;
+	pForm->rotationOffset = poly->rotationOffset;
+
+	return (ComponentForm*)pForm;
+}
+
 //uint16 ShapeRenderer_Create(
 //	RenderState* renderState,
 //	Transform* transform,

@@ -28,6 +28,12 @@ enum CompType
 struct Component
 {
 	CompType type;
+
+	//TODO : Define Create Function here as well.
+
+	//Take References to whatever component it wants.
+	//Can be used for refreshing references.
+	//TODO : Make Default funtion which refreshes gameObject reference.
 	void (*Init_References)(Component* component, GameObject* gameObject);
 	void (*Delete)(Component* component, GameState* gameState);
 

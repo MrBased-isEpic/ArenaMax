@@ -7,7 +7,6 @@ struct Component;
 #include "raymath.h"
 #include "types.h"
 #include "arrays.h"
-#include <vector>
 
 using namespace std;
 
@@ -19,13 +18,16 @@ void PolyRenderer_Delete(
 	Component* component,
 	GameState* gameState);
 
+ComponentForm* PolyRenderer_GetForm(Component* component);
+
 struct PolyRenderer
 {
 	Component component = 
 	{
 		POLYRENDERER,
 		&PolyRenderer_InitReferences,
-		&PolyRenderer_Delete
+		&PolyRenderer_Delete,
+		&PolyRenderer_GetForm
 	};
 
 	Transform* transform = nullptr;
