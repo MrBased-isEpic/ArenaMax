@@ -88,7 +88,11 @@ void Logic_Update(GameState* gameState, real32 timeStep)
 
     if (gameState->input.makeForm && !gameState->madeForm)
     {
-        GameObject_GetForm((GameObject*)SwapBackArray_Get(&gameState->gameObjects, 1));
+        GameObjectForm* gForm = GameObject_GetForm((GameObject*)SwapBackArray_Get(&gameState->gameObjects, 1));
+        GameObject* g = GameObject_Create(gameState, gForm);
+
+        g->transform.translation = { -500, 100, 0 };
+
         gameState->madeForm = true;
     }
 

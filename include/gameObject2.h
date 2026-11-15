@@ -4,7 +4,14 @@
 #include "gameState.h"
 #include "component2.h"
 
-GameObject* GameObject_Create(GameState* gameState);
+struct GameObjectForm
+{
+	char name[64];
+	uint16 noOfComponents = 0;
+};
+
+
+GameObject* GameObject_Create(GameState* gameState, GameObjectForm* form = nullptr);
 
 void GameObject_Delete(
 	GameState* gameState,
@@ -18,11 +25,5 @@ void GameObject_AddComponent(
 Component* GameObject_GetComponent(
 	GameObject* gameObject,
 	CompType type);
-
-struct GameObjectForm
-{
-	char name[64];
-	uint16 noOfComponents = 0;
-};
 
 GameObjectForm* GameObject_GetForm(GameObject* gameObject);

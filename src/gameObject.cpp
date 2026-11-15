@@ -2,14 +2,30 @@
 #include "gameObject2.h"
 
 
-GameObject* GameObject_Create(GameState* gameState)
+GameObject* GameObject_Create(GameState* gameState, GameObjectForm* form)
 {
 	GameObject gameObject = {};
 	gameObject.id = gameState->gameObjectIdCount++;
 
 	SwapBackArray_Add(&gameState->gameObjects, &gameObject);
 
-	return (GameObject*)SwapBackArray_Last(&gameState->gameObjects);
+	if (form == nullptr)
+	{
+		return (GameObject*)SwapBackArray_Last(&gameState->gameObjects);
+	}
+
+	GameObject* gameObjectRef = (GameObject*)SwapBackArray_Last(&gameState->gameObjects);
+	
+	memcpy(gameObjectRef->name, form->name, sizeof(gameObjectRef->name));
+	
+	ComponentForm* componentIterator = (ComponentForm*)(form + 1);
+	for (int i = 0; i < form->noOfComponents; i++)
+	{
+		GameObject_AddComponent(gameObjectRef, gameState, componentIterator);
+		componentIterator = (ComponentForm*)((uint8)componentIterator + componentIterator->size);
+	}
+
+	return gameObjectRef;
 }
 
 void GameObject_Delete(
