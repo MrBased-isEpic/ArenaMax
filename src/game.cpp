@@ -25,6 +25,7 @@ GameState* Logic_Start(
     gameState->gameObjects = SwapBackArray_Create(sizeof(GameObject), 5);
 
     GameObject* vehicle = GameObject_Create(gameState);
+    strcpy(vehicle->name, "PlayerVehicle");
 
     VehicleForm VForm = {};
 
@@ -34,6 +35,7 @@ GameState* Logic_Start(
         (ComponentForm*)&VForm);
 
     GameObject* box = GameObject_Create(gameState);
+    strcpy(box->name, "PolygonCollision");
 
     box->transform.translation = {500,100,0};
     box->transform.rotation = QuaternionFromEuler(0, 0, -90 * DEG2RAD);
@@ -90,8 +92,6 @@ void Logic_Update(GameState* gameState, real32 timeStep)
     {
         GameObjectForm* gForm = GameObject_GetForm((GameObject*)SwapBackArray_Get(&gameState->gameObjects, 1));
         GameObject* g = GameObject_Create(gameState, gForm);
-
-        g->transform.translation = { -500, 100, 0 };
 
         gameState->madeForm = true;
     }

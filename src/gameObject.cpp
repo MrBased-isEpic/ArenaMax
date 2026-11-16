@@ -22,7 +22,7 @@ GameObject* GameObject_Create(GameState* gameState, GameObjectForm* form)
 	for (int i = 0; i < form->noOfComponents; i++)
 	{
 		GameObject_AddComponent(gameObjectRef, gameState, componentIterator);
-		componentIterator = (ComponentForm*)((uint8)componentIterator + componentIterator->size);
+		componentIterator = (ComponentForm*)((uint8*)componentIterator + componentIterator->size);
 	}
 
 	return gameObjectRef;
@@ -142,5 +142,5 @@ GameObjectForm* GameObject_GetForm(GameObject* gameObject)
 
 	LinearAllocator_Delete(&gameObjectFormStore);
 
-	return gForm;
+	return result;
 }
