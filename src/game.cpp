@@ -3,6 +3,7 @@
 #include "vehicleform.h"
 #include "polyrendererform.h"
 #include "logic.h"
+#include <string.h>
 
 GameState* Logic_Start(
     uint16 screenWidth,

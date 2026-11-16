@@ -34,6 +34,10 @@ struct PhysicsState
 	// List of rigidbodies that can move across the world
 	SwapBackArray dynamics;
 
+	LinearAllocator colliders;
+	LinearAllocator colliders_worldSpace;
+	LinearAllocator normals_worldSpace;
+
 	// List of collisions that occurred this frame. 
 	// The game or the physics engine fetches it from here
 	// so it can resolve them.

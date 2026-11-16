@@ -4,6 +4,13 @@
 #include "raylib.h"
 #include "raymath.h"
 
+struct Collider
+{
+	uint8 noOfSides = 0;
+	Vector3* points = nullptr;
+	Vector3* normals = nullptr;
+};
+
 void RigidBody_InitReferences(
 	Component* component,
 	GameObject* gameObject);
@@ -28,6 +35,8 @@ struct RigidBody
 	Transform* transform = nullptr;
 
 	// world space position of the collider points.
+	Collider collider;
+	Collider collider_worldSpace;
 	Vector3 points[5];
 
 	// The outwards direction each edge points towards.
