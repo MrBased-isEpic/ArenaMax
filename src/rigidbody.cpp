@@ -116,6 +116,25 @@ void RigidBody_Delete(
 		(Component*)rigidbody);
 }
 
+void Rigidbody_GetNormals(
+	RigidBody* rigidBody)
+{
+	Vector3 points[5];
+	uint8 noOfPoints = rigidBody->numberOfPoints;
+
+	for (int i = 0; i < noOfPoints; i++)
+	{
+		points[i] = rigidBody->points[i];
+	}
+
+	for (int i = 0; i < noOfPoints; i++)
+	{
+		Vector3 edge = Vector3Subtract(points[(i + 1) % noOfPoints], points[i]);
+
+		rigidBody->normals[i] = Vector3Normalize(perp(edge));
+	}
+}
+
 ComponentForm* RigidBody_GetForm(Component* component)
 {
 	RigidBody* rb = (RigidBody*)component;

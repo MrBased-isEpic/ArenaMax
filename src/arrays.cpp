@@ -3,11 +3,13 @@
 SwapBackArray SwapBackArray_Create(
 	uint16 elementSize,
 	uint16 capacity,
-	void* address)
+	void* address,
+	uint16 elementsPresent)
 {
 	SwapBackArray array = {};
 	array.elementSize = elementSize;
 	array.capacity = capacity;
+	array.count = elementsPresent;
 
 	if (address == nullptr)
 	{

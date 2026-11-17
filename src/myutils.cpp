@@ -1,5 +1,10 @@
 #include "myutils.h"
 
+Vector3 perp(Vector3 v)
+{
+    return { v.y, -v.x, v.z };
+}
+
 real32 Abs(float x)
 {
     return x < 0 ? -x : x;

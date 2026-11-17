@@ -4,6 +4,8 @@
 #include "types.h"
 #include <cmath>
 
+Vector3 perp(Vector3 v);
+
 real32 Abs(float x);
 
 Vector3 TransformGetForward(Transform transform);

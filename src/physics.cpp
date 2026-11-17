@@ -6,36 +6,33 @@ PhysicsState* Physics_Start()
 {
 	PhysicsState* physicState = new PhysicsState;
 	physicState->dynamics = SwapBackArray_Create(sizeof(RigidBody), 5);
+
+	physicState->points = LinearAllocator_Create(1024);
+	physicState->normals = LinearAllocator_Create(1024);
+
+	Collider lp = {};
+	lp = {};
+	lp.noOfSides = 5;
+
+	Vector3* pentagonPoints = (Vector3*)LinearAllocator_Push(&physicState->points,
+		sizeof(Vector3) * lp.noOfSides);
+	Vector3* pentagonNormals = (Vector3*)LinearAllocator_Push(&physicState->normals,
+		sizeof(Vector3) * lp.noOfSides);
+
+	lp.points = pentagonPoints;
+	lp.normals = pentagonNormals;
+
+	GeneratePolyPoints(pentagonPoints, lp.noOfSides, 300);
+	Collider_CalculateNormals(lp);
+
+	physicState->largePentagon = lp;
+
 	return physicState;
 }
 
 RigidBody* Physics_GetRigidBody(PhysicsState* physicsState, uint16 gameObjectId, uint16* index)
 {
 	return (RigidBody*)Component_GetWithId(&physicsState->dynamics, gameObjectId, index);
-}
-
-Vector3 perp(Vector3 v)
-{
-	return {v.y, -v.x, v.z};
-}
-
-void Rigidbody_GetNormals(
-	RigidBody* rigidBody)
-{
-	Vector3 points[5];
-	uint8 noOfPoints = rigidBody->numberOfPoints;
-
-	for (int i = 0; i < noOfPoints; i++)
-	{
-		points[i] = rigidBody->points[i];
-	}
-
-	for (int i = 0; i < noOfPoints; i++)
-	{
-		Vector3 edge = Vector3Subtract(points[(i+1) % noOfPoints], points[i]);
-
-		rigidBody->normals[i] = Vector3Normalize(perp(edge));
-	}
 }
 
 bool Physics_GetCollision(

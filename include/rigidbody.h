@@ -3,13 +3,8 @@
 #include "component.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "collider.h"
 
-struct Collider
-{
-	uint8 noOfSides = 0;
-	Vector3* points = nullptr;
-	Vector3* normals = nullptr;
-};
 
 void RigidBody_InitReferences(
 	Component* component,

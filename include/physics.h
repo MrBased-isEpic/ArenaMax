@@ -14,11 +14,6 @@ struct PhysicsState;
 
 using namespace std;
 
-#define CIRCLE 0
-#define SQUARE 1
-#define RECTANGLE 2
-
-
 // A report of a intersection happening between rigidbodies.
 // Contains everything that is needed to resolve the collision.
 struct Collision
@@ -34,8 +29,12 @@ struct PhysicsState
 	// List of rigidbodies that can move across the world
 	SwapBackArray dynamics;
 
-	LinearAllocator colliders;
-	LinearAllocator colliders_worldSpace;
+	Collider largePentagon;
+
+	LinearAllocator points;
+	LinearAllocator normals;
+
+	LinearAllocator points_worldSpace;
 	LinearAllocator normals_worldSpace;
 
 	// List of collisions that occurred this frame. 

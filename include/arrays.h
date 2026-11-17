@@ -16,7 +16,8 @@ struct SwapBackArray
 SwapBackArray SwapBackArray_Create(
 	uint16 elementSize,
 	uint16 capacity,
-	void* address = nullptr);
+	void* address = nullptr,
+	uint16 elementsPresent = 0);
 
 void SwapBackArray_Destroy(SwapBackArray* array);
 
