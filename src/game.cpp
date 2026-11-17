@@ -69,8 +69,7 @@ GameState* Logic_Start(
 
 void Logic_RefreshPhysicsReferences(GameState* gameState)
 {
-    
-    cout << "refreshed references" << endl;
+    Log("refreshed references")
 }
 
 void Logic_RefreshGameObjectReferences(GameState* gameState)

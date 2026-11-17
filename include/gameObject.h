@@ -6,6 +6,7 @@ struct PolyRenderer;
 #include "component.h"
 #include "raylib.h"
 #include "arrays.h"
+#include "debug.h"
 
 
 struct GameObject

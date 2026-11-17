@@ -4,12 +4,12 @@ void Collider_CalculateNormals(Collider collider)
 {
 	if (collider.points == nullptr)
 	{
-		cout << "Collider points pointer not initialized" << endl;
+		LogError("Collider points pointer not initialized")
 		return;
 	}
 	if (collider.normals = nullptr)
 	{
-		cout << "Collider normals pointer not initialized" << endl;
+		LogError("Collider normals pointer not initialized")
 		return;
 	}
 

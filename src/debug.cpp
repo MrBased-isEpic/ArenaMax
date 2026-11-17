@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "physics.h"
 
 string Vector3String(Vector3 v)
 {
@@ -24,4 +25,24 @@ void DrawColliders(PhysicsState* physicsState)
             DrawLine3D(rb->points[i], rb->points[(i + 1) % rb->numberOfPoints], ORANGE);
         }
     }
+}
+
+void SetColor(int textColor)
+{
+    cout << "\033[" << textColor << "m";
+}
+
+// Function to reset the console color
+void ResetColor() { cout << "\033[0m"; }
+
+void log(const char* file, uint16 line, const char* message)
+{
+    cout << file << "("<< line << "): LOG: " << message << endl;
+}
+
+void logError(const char* file, uint16 line, const char* message)
+{
+    SetColor(91);
+    cout << file << "(" << line << "): ERROR: " << message << endl;
+    ResetColor();
 }

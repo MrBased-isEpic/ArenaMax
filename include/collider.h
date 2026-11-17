@@ -1,13 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "debug.h"
 #include "myutils.h"
 #include "arrays.h"
 #include "raylib.h"
 #include "raymath.h"
-#include <iostream>
 
-using namespace std;
 
 struct Collider
 {

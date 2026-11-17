@@ -116,7 +116,7 @@ void* LinearAllocator_Push(LinearAllocator* linalloc, uint16 size)
 {
 	if (LinearAllocator_Size(linalloc) > linalloc->capacity)
 	{
-		std::cout << "memory overflow detected, returning null" << std::endl;
+		LogError("memory overflow detected, returning null")
 		return nullptr;
 	}
 

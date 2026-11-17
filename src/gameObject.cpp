@@ -75,7 +75,7 @@ Component* GameObject_GetComponent(
 			return gameObject->components[i];
 	}
 
-	cout << "could not find requested component" << endl;
+	LogError("Could Not Find Specified Component Type in GameObject.")
 	return nullptr;
 }
 
@@ -92,7 +92,7 @@ void GameObject_SetComponentReference(
 		}
 	}
 
-	cout << "Could Not Find Specified Component Type in GameObject." << endl;
+	LogError("Could Not Find Specified Component Type in GameObject.")
 }
 
 void GameObject_RemoveComponentReference(
@@ -108,7 +108,7 @@ void GameObject_RemoveComponentReference(
 		}
 	}
 
-	cout << "Could Not Find Specified Component Type in GameObject." << endl;
+	LogError("Could Not Find Specified Component Type in GameObject.");
 }
 
 GameObjectForm* GameObject_GetForm(GameObject* gameObject)

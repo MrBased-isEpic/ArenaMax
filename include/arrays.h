@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include "debug.h"
 
 struct SwapBackArray
 {
