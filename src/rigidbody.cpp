@@ -1,4 +1,5 @@
 #include "rigidbody.h"
+#include "component2.h"
 #include "rigidbodyform.h"
 
 Component* RigidBody_Create(ComponentForm* form, GameState* gameState, GameObject* gameObject)

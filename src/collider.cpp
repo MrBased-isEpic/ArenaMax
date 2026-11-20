@@ -1,4 +1,19 @@
 #include "collider.h"
+#include "physics.h"
+
+Collider Collider_Create(PhysicsState* physicsSatte, uint8 noOfSides)
+{
+	Collider collider = {};
+	collider = {};
+	collider.noOfSides = 5;
+
+	collider.points = (Vector3*)LinearAllocator_Push(&physicsSatte->points,
+		sizeof(Vector3) * collider.noOfSides);
+	collider.normals = (Vector3*)LinearAllocator_Push(&physicsSatte->normals,
+		sizeof(Vector3) * collider.noOfSides);
+
+	return collider;
+}
 
 void Collider_CalculateNormals(Collider collider)
 {

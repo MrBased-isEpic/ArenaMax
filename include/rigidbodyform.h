@@ -17,6 +17,7 @@ struct RigidbodyForm
 		&RigidBody_Create
 	};
 
+	Collider collider;
 	Vector3 points[5];
 	uint8 numberOfPoints = 0;
 	bool isStatic = true;

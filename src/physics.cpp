@@ -10,19 +10,9 @@ PhysicsState* Physics_Start()
 	physicState->points = LinearAllocator_Create(1024);
 	physicState->normals = LinearAllocator_Create(1024);
 
-	Collider lp = {};
-	lp = {};
-	lp.noOfSides = 5;
+	Collider lp = Collider_Create(physicState, 5);
 
-	Vector3* pentagonPoints = (Vector3*)LinearAllocator_Push(&physicState->points,
-		sizeof(Vector3) * lp.noOfSides);
-	Vector3* pentagonNormals = (Vector3*)LinearAllocator_Push(&physicState->normals,
-		sizeof(Vector3) * lp.noOfSides);
-
-	lp.points = pentagonPoints;
-	lp.normals = pentagonNormals;
-
-	GeneratePolyPoints(pentagonPoints, lp.noOfSides, 300);
+	GeneratePolyPoints(lp.points, lp.noOfSides, 300);
 	Collider_CalculateNormals(lp);
 
 	physicState->largePentagon = lp;
